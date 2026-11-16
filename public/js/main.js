@@ -1,5 +1,5 @@
 // ==========================================================================
-// MAIN ENTRY POINT - Pegadaian Championship Application
+// MAIN ENTRY POINT - Singacala Hub Application
 // ==========================================================================
 
 import { state } from './modules/state.js';
@@ -25,14 +25,61 @@ import { initRouter, handleRoute } from './modules/router.js';
 import { initSimulationState } from './modules/simulation.js';
 
 // ==========================================================================
-// DATA LOADING
+// DATA LOADING (Supports Express API + Static Hosting Fallback)
 // ==========================================================================
+
+async function fetchJsonSafe(url) {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
+}
+
+async function fetchStandingsWithFallback() {
+  try {
+    const apiData = await fetchJsonSafe('/api/standings');
+    if (apiData && apiData.success) return apiData;
+  } catch (_) {}
+
+  // Static hosting fallback (Cloudflare Workers / Pages / CDN)
+  try {
+    const [groups, meta] = await Promise.all([
+      fetchJsonSafe('./data/klasemen.json'),
+      fetchJsonSafe('./data/meta.json').catch(() => null),
+    ]);
+    if (Array.isArray(groups) && groups.length > 0) {
+      return {
+        success: true,
+        data: groups[0],
+        groups,
+        lastModified: meta?.lastModified || null,
+      };
+    }
+  } catch (_) {}
+
+  return { success: false };
+}
+
+async function fetchFixturesWithFallback() {
+  try {
+    const apiData = await fetchJsonSafe('/api/fixtures');
+    if (apiData && apiData.success) return apiData;
+  } catch (_) {}
+
+  try {
+    const data = await fetchJsonSafe('./data/jadwal_dan_hasil.json');
+    if (Array.isArray(data) && data.length > 0) {
+      return { success: true, data };
+    }
+  } catch (_) {}
+
+  return { success: false };
+}
 
 export async function loadInitialData() {
   try {
     const [standingsRes, fixturesRes] = await Promise.all([
-      fetch('/api/standings').then((r) => r.json()).catch(() => ({ success: false })),
-      fetch('/api/fixtures').then((r) => r.json()).catch(() => ({ success: false })),
+      fetchStandingsWithFallback(),
+      fetchFixturesWithFallback(),
     ]);
 
     if (standingsRes.success) {
