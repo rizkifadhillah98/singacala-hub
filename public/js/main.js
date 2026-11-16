@@ -18,6 +18,7 @@ import {
   setupSearch,
   setupDrawer,
   setupModals,
+  setupDisclaimerModal,
   checkAndInitAdmin,
   syncDummyUI,
 } from './modules/ui.js';
@@ -167,6 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupSearch();
   setupDrawer();
   setupModals();
+  setupDisclaimerModal();
   checkAndInitAdmin();
   initRouter();
   loadInitialData();

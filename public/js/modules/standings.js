@@ -106,7 +106,7 @@ export function renderStandingsTable() {
     .map((team, index) => {
       const pos = team.posisi || index + 1;
 
-      // Indicator bar on left edge & status tooltip sesuai Regulasi Pegadaian Championship 2026/27
+      // Indicator bar on left edge & status tooltip sesuai Regulasi Liga 2 2026/27
       let rowClass = '';
       let rankTitle = '';
       if (pos === 1) {

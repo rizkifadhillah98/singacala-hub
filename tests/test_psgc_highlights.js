@@ -32,6 +32,7 @@ async function runPsgcHighlightTests() {
     viewport: { width: 1280, height: 900 },
     locale: 'id-ID',
   });
+  await context.addInitScript(() => localStorage.setItem('pc_disclaimer_accepted', 'true'));
 
   const page = await context.newPage();
 
@@ -335,6 +336,7 @@ async function runPsgcHighlightTests() {
       viewport: { width: 390, height: 844 },
       locale: 'id-ID',
     });
+    await mobileContext.addInitScript(() => localStorage.setItem('pc_disclaimer_accepted', 'true'));
     const mobilePage = await mobileContext.newPage();
     await mobilePage.goto('http://localhost:3000');
     await mobilePage.waitForSelector('#standings-table-body tr');

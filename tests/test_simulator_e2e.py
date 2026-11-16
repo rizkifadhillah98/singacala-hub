@@ -18,6 +18,7 @@ def run_tests():
     with sync_playwright() as p:
         browser = launch_browser(p)
         context = browser.new_context(viewport={"width": 1280, "height": 800})
+        context.add_init_script("localStorage.setItem('pc_disclaimer_accepted', 'true');")
         page = context.new_page()
 
         # Capture console messages and errors

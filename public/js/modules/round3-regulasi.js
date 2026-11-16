@@ -1,5 +1,5 @@
 // ==========================================================================
-// REGULASI PEGADAIAN CHAMPIONSHIP 2026/27 - BABAK PENDAHULUAN ROUND ROBIN KE-3
+// REGULASI LIGA 2 2026/27 - BABAK PENDAHULUAN ROUND ROBIN KE-3
 // ==========================================================================
 // Berdasarkan Pasal 7 Ayat 3 Bagian III & IV dan Lampiran Regulasi:
 // - Peringkat 1-5 (Putaran 2): 5 Home, 4 Away.

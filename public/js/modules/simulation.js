@@ -1,5 +1,5 @@
 // ==========================================================================
-// SIMULATION MODULE - Pegadaian Championship 2026/27 Tournament Simulator
+// SIMULATION MODULE - Singacala Hub 2026/27 Tournament Simulator
 // ==========================================================================
 // Features:
 // - 100% Client-side in-memory & localStorage persistence.

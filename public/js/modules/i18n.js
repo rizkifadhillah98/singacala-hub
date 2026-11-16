@@ -289,7 +289,20 @@ export const translations = {
     psgc_notes_semen_padang: 'Laga Tandang di Patriot Chandra Bhaga',
     psgc_notes_sumsel: 'Laga Tandang di Gelora Sriwijaya Jakabaring',
     psgc_notes_persikad: 'Menjamu Tim Peringkat 3 di Ciamis',
-    psgc_notes_psms: 'Laga Pamungkas Putaran 2 di Markas PSMS'
+    psgc_notes_psms: 'Laga Pamungkas Putaran 2 di Markas PSMS',
+
+    // Opening Disclaimer Modal & Footer Trigger
+    disclaimer_badge_unofficial: 'TIDAK RESMI • BUATAN PENGGEMAR',
+    disclaimer_badge_notice: 'PEMBERITAHUAN PENTING',
+    disclaimer_title: 'Selamat Datang di Singacala Hub',
+    disclaimer_subtitle: 'Terima kasih telah berkunjung! Mohon baca informasi singkat berikut sebelum melanjutkan.',
+    disclaimer_summary_text: 'Singacala Hub adalah proyek hobi dan edukasi independen buatan penggemar untuk visualisasi data sepak bola, sehingga bersifat tidak resmi, non-komersial, serta tidak berafiliasi dengan federasi (PSSI), operator liga (I.League), sponsor resmi, maupun klub terkait—dengan seluruh nama klub, logo, dan merek dagang tetap menjadi milik pemegang hak cipta masing-masing. Data klasemen, jadwal, dan statistik dirujuk dari portal publik <a href="https://www.ileague.id" target="_blank" rel="noopener">ileague.id</a> dan dapat mengalami jeda pembaruan atau perbedaan dibanding rilis resmi, sementara fitur Simulator Liga dan Peluang PSGC hanya menyajikan proyeksi matematis (termasuk simulasi Monte Carlo) serta skenario pengguna untuk hiburan dan analisis semata, bukan hasil atau keputusan resmi liga.',
+    disclaimer_footer_note: 'Dengan melanjutkan, Anda memahami bahwa situs ini bersifat tidak resmi.',
+    disclaimer_footer_note_review: 'Anda dapat membuka pemberitahuan ini kapan saja melalui bagian bawah halaman.',
+    disclaimer_btn_accept: 'Mengerti & Lanjutkan',
+    disclaimer_btn_close: 'Tutup',
+    disclaimer_close_aria: 'Tutup Disclaimer',
+    footer_disclaimer_btn: 'Disclaimer'
   },
   en: {
     // Header Navigation
@@ -555,7 +568,20 @@ export const translations = {
     psgc_notes_semen_padang: 'Away Fixture at Patriot Chandra Bhaga',
     psgc_notes_sumsel: 'Away Fixture at Gelora Sriwijaya Jakabaring',
     psgc_notes_persikad: 'Hosting 3rd-placed Team at Ciamis',
-    psgc_notes_psms: 'Final Round 2 Fixture at PSMS Home Ground'
+    psgc_notes_psms: 'Final Round 2 Fixture at PSMS Home Ground',
+
+    // Opening Disclaimer Modal & Footer Trigger
+    disclaimer_badge_unofficial: 'UNOFFICIAL FAN-MADE',
+    disclaimer_badge_notice: 'IMPORTANT NOTICE',
+    disclaimer_title: 'Welcome to Singacala Hub',
+    disclaimer_subtitle: 'Thanks for visiting! Please read the brief notice below before continuing.',
+    disclaimer_summary_text: 'Singacala Hub is an independent, fan-made hobby and educational project for football data visualization; it is strictly unofficial, non-commercial, and not affiliated with the federation (PSSI), league operator (I.League), official sponsors, or any clubs, with all club names, logos, and trademarks remaining the property of their respective copyright holders. Standings, fixtures, and statistics are referenced from the public portal <a href="https://www.ileague.id" target="_blank" rel="noopener">ileague.id</a> and may experience sync delays or discrepancies compared to official releases, while the League Simulator and PSGC Odds features provide mathematical projections (including Monte Carlo simulations) and user-defined scenarios for entertainment and analysis only—not official match results or league rulings.',
+    disclaimer_footer_note: 'By continuing, you acknowledge that this site is unofficial and fan-made.',
+    disclaimer_footer_note_review: 'You can reopen this notice anytime from the page footer.',
+    disclaimer_btn_accept: 'Understand & Continue',
+    disclaimer_btn_close: 'Close',
+    disclaimer_close_aria: 'Close Disclaimer',
+    footer_disclaimer_btn: 'Disclaimer'
   }
 };
 
@@ -692,15 +718,16 @@ export function translateScenarioTitle(title, lang = getLanguage()) {
 export function applyI18n(lang = getLanguage()) {
   document.documentElement.lang = lang;
 
-  // Language switcher active state
-  const switcher = document.getElementById('lang-switcher');
-  if (switcher) {
+  // Language switcher active state (header & disclaimer modal)
+  ['lang-switcher', 'disclaimer-lang-switcher'].forEach((id) => {
+    const switcher = document.getElementById(id);
+    if (!switcher) return;
     switcher.querySelectorAll('.lang-segment').forEach((btn) => {
       const active = btn.dataset.lang === lang;
       btn.classList.toggle('active', active);
       btn.setAttribute('aria-pressed', active ? 'true' : 'false');
     });
-  }
+  });
 
   // Brand link
   const brand = document.getElementById('brand-home-link');
@@ -919,6 +946,36 @@ export function applyI18n(lang = getLanguage()) {
   if (r3Close) r3Close.textContent = t('r3_modal_btn_close', {}, lang);
   const r3Proceed = document.querySelector('#btn-r3-modal-proceed span');
   if (r3Proceed) r3Proceed.textContent = t('r3_modal_btn_proceed', {}, lang);
+
+  // Opening Disclaimer Modal & Footer Trigger
+  const discTextMap = {
+    'disclaimer-badge-unofficial': 'disclaimer_badge_unofficial',
+    'disclaimer-badge-notice': 'disclaimer_badge_notice',
+    'disclaimer-modal-title': 'disclaimer_title',
+    'disclaimer-modal-subtitle': 'disclaimer_subtitle',
+    'btn-open-disclaimer': 'footer_disclaimer_btn',
+  };
+  Object.entries(discTextMap).forEach(([elId, key]) => {
+    const el = document.getElementById(elId);
+    if (el) el.textContent = t(key, {}, lang);
+  });
+
+  const discSummaryText = document.getElementById('disclaimer-summary-text');
+  if (discSummaryText) discSummaryText.innerHTML = t('disclaimer_summary_text', {}, lang);
+
+  const discCloseBtn = document.getElementById('btn-close-disclaimer');
+  if (discCloseBtn) discCloseBtn.setAttribute('aria-label', t('disclaimer_close_aria', {}, lang));
+
+  const discBackdrop = document.getElementById('disclaimer-modal-backdrop');
+  const isLocked = !discBackdrop || discBackdrop.dataset.locked !== 'false';
+  const discFooterNote = document.getElementById('disclaimer-footer-note');
+  if (discFooterNote) {
+    discFooterNote.textContent = t(isLocked ? 'disclaimer_footer_note' : 'disclaimer_footer_note_review', {}, lang);
+  }
+  const discAcceptBtn = document.getElementById('btn-accept-disclaimer');
+  if (discAcceptBtn) {
+    discAcceptBtn.textContent = t(isLocked ? 'disclaimer_btn_accept' : 'disclaimer_btn_close', {}, lang);
+  }
 }
 
 export function setupLanguageSwitcher() {

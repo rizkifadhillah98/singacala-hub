@@ -5,7 +5,7 @@
 import { state } from './state.js';
 import { navigateTo } from './router.js';
 import { formatTimestamp, showToast, buildFormMap, matchClubs } from './utils.js';
-import { t } from './i18n.js';
+import { t, getLanguage, setLanguage } from './i18n.js';
 import {
   switchGroup,
   renderStandingsTable,
@@ -943,6 +943,114 @@ export function setupModals() {
         broadcastBackdrop.classList.remove('show');
       }
     });
+  }
+}
+
+// ==========================================================================
+// OPENING DISCLAIMER MODAL
+// ==========================================================================
+
+const DISCLAIMER_STORAGE_KEY = 'pc_disclaimer_accepted';
+const DISCLAIMER_REOPEN_KEY = 'pc_reopen_disclaimer';
+
+function isDisclaimerAccepted() {
+  try {
+    return localStorage.getItem(DISCLAIMER_STORAGE_KEY) === 'true';
+  } catch (_) {
+    return false;
+  }
+}
+
+function markDisclaimerAccepted() {
+  try {
+    localStorage.setItem(DISCLAIMER_STORAGE_KEY, 'true');
+  } catch (_) {
+    // defensive fallback if localStorage is disabled
+  }
+}
+
+export function setupDisclaimerModal() {
+  const backdrop = document.getElementById('disclaimer-modal-backdrop');
+  const acceptBtn = document.getElementById('btn-accept-disclaimer');
+  const closeBtn = document.getElementById('btn-close-disclaimer');
+  const footerNote = document.getElementById('disclaimer-footer-note');
+  const openFooterBtn = document.getElementById('btn-open-disclaimer');
+  const langSwitcher = document.getElementById('disclaimer-lang-switcher');
+
+  if (!backdrop || !acceptBtn) return;
+
+  const isLocked = () => backdrop.dataset.locked !== 'false';
+
+  const openModal = ({ requireAcknowledge }) => {
+    backdrop.dataset.locked = requireAcknowledge ? 'true' : 'false';
+    if (closeBtn) closeBtn.hidden = requireAcknowledge;
+    if (footerNote) {
+      footerNote.textContent = t(requireAcknowledge ? 'disclaimer_footer_note' : 'disclaimer_footer_note_review');
+    }
+    acceptBtn.textContent = t(requireAcknowledge ? 'disclaimer_btn_accept' : 'disclaimer_btn_close');
+
+    backdrop.classList.add('show');
+    document.body.style.overflow = 'hidden';
+    requestAnimationFrame(() => acceptBtn.focus());
+  };
+
+  const closeModal = (force = false) => {
+    if (!force && isLocked()) return;
+    backdrop.classList.remove('show');
+    document.body.style.overflow = '';
+  };
+
+  acceptBtn.addEventListener('click', () => {
+    if (isLocked()) markDisclaimerAccepted();
+    closeModal(true);
+  });
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => closeModal(false));
+  }
+
+  backdrop.addEventListener('click', (e) => {
+    if (e.target === backdrop) closeModal(false);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && backdrop.classList.contains('show')) {
+      closeModal(false);
+    }
+  });
+
+  if (openFooterBtn) {
+    openFooterBtn.addEventListener('click', () => {
+      openModal({ requireAcknowledge: false });
+    });
+  }
+
+  if (langSwitcher) {
+    langSwitcher.querySelectorAll('.lang-segment').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetLang = btn.dataset.lang;
+        if (!targetLang || targetLang === getLanguage()) return;
+        if (!isLocked()) {
+          try {
+            sessionStorage.setItem(DISCLAIMER_REOPEN_KEY, '1');
+          } catch (_) {}
+        }
+        setLanguage(targetLang);
+      });
+    });
+  }
+
+  let shouldReopenReview = false;
+  try {
+    shouldReopenReview = sessionStorage.getItem(DISCLAIMER_REOPEN_KEY) === '1';
+    if (shouldReopenReview) sessionStorage.removeItem(DISCLAIMER_REOPEN_KEY);
+  } catch (_) {}
+
+  if (shouldReopenReview) {
+    openModal({ requireAcknowledge: false });
+  } else if (!isDisclaimerAccepted()) {
+    openModal({ requireAcknowledge: true });
   }
 }
 

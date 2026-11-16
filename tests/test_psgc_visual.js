@@ -27,6 +27,7 @@ async function runVisualTests() {
     viewport: { width: 1280, height: 900 },
     locale: 'id-ID',
   });
+  await context.addInitScript(() => localStorage.setItem('pc_disclaimer_accepted', 'true'));
 
   const page = await context.newPage();
 
@@ -260,6 +261,7 @@ async function runVisualTests() {
       viewport: { width: 390, height: 844 },
       locale: 'id-ID',
     });
+    await mobileContext.addInitScript(() => localStorage.setItem('pc_disclaimer_accepted', 'true'));
     const mobilePage = await mobileContext.newPage();
     await mobilePage.goto('http://localhost:3000');
     await mobilePage.evaluate(() => localStorage.setItem('pc_lang', 'id'));
@@ -296,7 +298,9 @@ async function runVisualTests() {
     // [Test 8] Admin In-Memory Dummy Weekly Update & Reset E2E
     // ------------------------------------------------------------------------
     console.log('\n[Test 8] Testing Admin Dummy Weekly Update (+1 Week) & Reset...');
-    const adminPage = await browser.newPage({ viewport: { width: 1280, height: 900 }, locale: 'id-ID' });
+    const adminContext = await browser.newContext({ viewport: { width: 1280, height: 900 }, locale: 'id-ID' });
+    await adminContext.addInitScript(() => localStorage.setItem('pc_disclaimer_accepted', 'true'));
+    const adminPage = await adminContext.newPage();
     await adminPage.goto('http://localhost:3000/?admin=admin123');
     await adminPage.waitForSelector('#standings-table-body tr');
     await adminPage.click('#btn-subview-psgc');

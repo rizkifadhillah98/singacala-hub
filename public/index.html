@@ -697,6 +697,61 @@
     </button>
   </nav>
 
+  <!-- ================================================== -->
+  <!-- MODAL: OPENING DISCLAIMER / SITE NOTICE            -->
+  <!-- ================================================== -->
+  <div class="disclaimer-modal-backdrop" id="disclaimer-modal-backdrop" role="dialog" aria-modal="true"
+    aria-labelledby="disclaimer-modal-title" aria-describedby="disclaimer-modal-subtitle">
+    <div class="disclaimer-modal-box">
+      <div class="disclaimer-modal-header">
+        <div class="disclaimer-modal-header-text">
+          <div class="disclaimer-tag-row">
+            <span class="disclaimer-pill-tag" id="disclaimer-badge-unofficial">UNOFFICIAL FAN-MADE</span>
+            <span class="disclaimer-subtag" id="disclaimer-badge-notice">PEMBERITAHUAN PENTING</span>
+          </div>
+          <h3 class="disclaimer-modal-title" id="disclaimer-modal-title">Selamat Datang di Singacala Hub</h3>
+          <p class="disclaimer-modal-subtitle" id="disclaimer-modal-subtitle">
+            Terima kasih telah berkunjung! Mohon baca informasi singkat berikut sebelum melanjutkan.
+          </p>
+        </div>
+
+        <div class="disclaimer-header-actions">
+          <div class="lang-switcher disclaimer-lang-switcher" id="disclaimer-lang-switcher" role="group"
+            aria-label="Language Selector">
+            <button type="button" class="lang-segment active" data-lang="id" aria-label="Bahasa Indonesia">ID</button>
+            <button type="button" class="lang-segment" data-lang="en" aria-label="English">EN</button>
+          </div>
+          <button type="button" class="disclaimer-close-btn" id="btn-close-disclaimer" aria-label="Tutup Disclaimer"
+            hidden>✕</button>
+        </div>
+      </div>
+
+      <div class="disclaimer-modal-body" id="disclaimer-modal-body">
+        <div class="disclaimer-summary-box">
+          <p class="disclaimer-summary-text" id="disclaimer-summary-text">
+            Singacala Hub adalah proyek hobi dan edukasi independen buatan penggemar untuk visualisasi data sepak bola,
+            sehingga bersifat tidak resmi, non-komersial, serta tidak berafiliasi dengan federasi (PSSI), operator liga
+            (I.League), sponsor resmi, maupun klub terkait—dengan seluruh nama klub, logo, dan merek dagang tetap menjadi
+            milik pemegang hak cipta masing-masing. Data klasemen, jadwal, dan statistik dirujuk dari portal publik
+            <a href="https://www.ileague.id" target="_blank" rel="noopener">ileague.id</a> dan dapat mengalami jeda
+            pembaruan atau perbedaan dibanding rilis resmi, sementara fitur Simulator Liga dan Peluang PSGC hanya
+            menyajikan proyeksi matematis (termasuk simulasi Monte Carlo) serta skenario pengguna untuk hiburan dan
+            analisis semata, bukan hasil atau keputusan resmi liga.
+          </p>
+        </div>
+      </div>
+
+      <div class="disclaimer-modal-footer">
+        <p class="disclaimer-footer-note" id="disclaimer-footer-note">
+          Dengan melanjutkan, Anda memahami bahwa situs ini bersifat tidak resmi.
+        </p>
+        <button type="button" class="disclaimer-accept-btn" id="btn-accept-disclaimer">
+          Mengerti &amp; Lanjutkan
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- App Footer -->
   <footer class="app-footer">
     <div class="footer-container">
@@ -709,6 +764,11 @@
         hak cipta masing-masing. Informasi jadwal dan statistik dirujuk dari portal publik <a
           href="https://www.ileague.id" target="_blank" rel="noopener">ileague.id</a>.
       </p>
+      <div class="footer-actions">
+        <button type="button" class="footer-disclaimer-btn" id="btn-open-disclaimer">
+          Disclaimer
+        </button>
+      </div>
     </div>
   </footer>
 

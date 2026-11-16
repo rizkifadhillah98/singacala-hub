@@ -18,6 +18,7 @@ async function runTests() {
     viewport: { width: 1280, height: 800 },
     locale: 'id-ID',
   });
+  await context.addInitScript(() => localStorage.setItem('pc_disclaimer_accepted', 'true'));
 
   const page = await context.newPage();
 
@@ -234,6 +235,7 @@ async function runTests() {
     viewport: { width: 390, height: 844 },
     userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148',
   });
+  await mobileContext.addInitScript(() => localStorage.setItem('pc_disclaimer_accepted', 'true'));
   const mobilePage = await mobileContext.newPage();
   await mobilePage.goto('http://localhost:3000');
   await mobilePage.waitForSelector('#standings-table-body tr');
