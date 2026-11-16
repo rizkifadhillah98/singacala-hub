@@ -1,0 +1,532 @@
+/* ==========================================================================
+   FIXTURES & RESULTS COMPONENT (Screenshot 2)
+   ========================================================================== */
+
+.fixtures-filter-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.25rem 2rem;
+  margin-bottom: 2rem;
+}
+
+.filter-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.filter-mini-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.help-circle {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #242934;
+  color: var(--text-muted);
+  font-size: 9px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pill-dropdown-wrap {
+  position: relative;
+}
+
+.pill-dropdown-btn {
+  background-color: var(--bg-surface-elevated);
+  color: var(--text-white);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  padding: 7px 14px;
+  font-family: var(--font-main);
+  font-size: 13.5px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pill-dropdown-btn:hover {
+  border-color: var(--border-strong);
+  background-color: var(--bg-hover);
+}
+
+.pill-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--text-muted);
+}
+
+.chevron-sm {
+  width: 14px;
+  height: 14px;
+  color: var(--text-muted);
+}
+
+.pill-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  min-width: 220px;
+  background-color: var(--bg-surface-elevated);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  padding: 5px;
+  z-index: 60;
+  display: none;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.pill-dropdown-menu.show {
+  display: block;
+}
+
+.dropdown-opt {
+  width: 100%;
+  text-align: left;
+  padding: 8px 12px;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.dropdown-opt:hover, .dropdown-opt.active {
+  background-color: #242934;
+  color: var(--text-white);
+  font-weight: 600;
+}
+
+/* Custom Checkbox */
+.filter-checkbox-wrap {
+  display: flex;
+  align-items: center;
+  margin-top: 1.35rem;
+}
+
+.custom-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.custom-checkbox input[type="checkbox"] {
+  display: none;
+}
+
+.checkbox-box {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: 4px;
+  background-color: var(--bg-surface-elevated);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.custom-checkbox input:checked + .checkbox-box {
+  background-color: #ffffff;
+  border-color: #ffffff;
+}
+
+.custom-checkbox input:checked + .checkbox-box::after {
+  content: '✓';
+  color: #000000;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.checkbox-text {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* Date Range Stepper Row */
+.fixtures-date-navigator-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin: 1.5rem 0 2.5rem;
+}
+
+.date-range-stepper {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.stepper-arrow-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  color: var(--text-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.stepper-arrow-btn:hover {
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+}
+
+.stepper-arrow-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.date-range-display {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-white);
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+
+.sort-pill-wrap {
+  position: absolute;
+  right: 0;
+}
+
+.sort-pill-btn {
+  background-color: var(--bg-surface-elevated);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  padding: 6px 14px;
+  color: var(--text-white);
+  font-family: var(--font-main);
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.sort-pill-btn:hover {
+  border-color: var(--border-strong);
+}
+
+.sort-icon {
+  width: 14px;
+  height: 14px;
+  color: var(--text-muted);
+}
+
+/* Fixtures Match Stream List */
+.fixtures-matches-stream {
+  display: flex;
+  flex-direction: column;
+  gap: 2.75rem;
+}
+
+.match-day-block {
+  width: 100%;
+}
+
+.match-day-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--border-medium);
+  margin-bottom: 1rem;
+}
+
+.match-day-date {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text-white);
+}
+
+.match-day-center-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 3px 12px;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.5px;
+}
+
+.match-comp-icon {
+  background: #ffffff;
+  color: #000000;
+  font-size: 10px;
+  font-weight: 900;
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+.match-watch-link {
+  background: none;
+  border: none;
+  color: var(--text-white);
+  font-family: var(--font-main);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.2s ease;
+}
+
+.match-watch-link:hover {
+  color: var(--color-cyan);
+}
+
+/* Centered Match Card Row (Screenshot 2 Match Layout) */
+.match-card-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.4rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background-color 0.15s ease;
+}
+
+.match-card-row:hover {
+  background-color: var(--bg-hover);
+  border-radius: 8px;
+}
+
+/* PSGC Ciamis Match Card Highlight (Crisp White Outline / Border) */
+.match-card-row.psgc-match,
+.match-card-row.match-psgc {
+  border: 1px solid #ffffff;
+  outline: 1px solid #ffffff;
+  outline-offset: -1px;
+  border-radius: 8px;
+  background-color: #161a22;
+  margin: 10px 0;
+  padding: 1.4rem 1.25rem;
+}
+
+.match-card-row.psgc-match:hover,
+.match-card-row.match-psgc:hover {
+  background-color: #1a1f2a;
+  border-color: #ffffff;
+}
+
+.match-ko-time {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.2px;
+}
+
+.match-teams-score-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 820px;
+  gap: 1.5rem;
+}
+
+.team-side {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.team-side.home {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.team-side.away {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.match-team-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-white);
+  letter-spacing: 0.1px;
+}
+
+.match-team-logo {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.match-score-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  min-width: 140px;
+}
+
+.score-digit {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--text-white);
+  font-family: var(--font-display);
+}
+
+.match-status-label {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+  text-transform: capitalize;
+}
+
+.match-vs-label {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-dim);
+}
+
+.match-stadium-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-top: 0.5rem;
+}
+
+/* ==========================================================================
+   MOBILE RESPONSIVE STYLES (Fixtures & Match Cards)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .fixtures-filter-bar {
+    flex-wrap: wrap;
+    gap: 0.85rem;
+  }
+
+  .filter-item {
+    flex: 1 1 calc(50% - 0.5rem);
+    min-width: 140px;
+  }
+
+  .pill-dropdown-btn {
+    width: 100%;
+    justify-content: space-between;
+    padding: 6px 10px;
+    font-size: 12.5px;
+  }
+
+  .match-card-row {
+    padding: 1rem 0;
+  }
+
+  .match-card-row.psgc-match,
+  .match-card-row.match-psgc {
+    padding: 1rem 0.75rem;
+    margin: 8px 0;
+  }
+
+  .match-ko-time {
+    font-size: 11px;
+    margin-bottom: 0.4rem;
+    text-align: center;
+  }
+
+  .match-teams-score-line {
+    gap: 0.65rem;
+    max-width: 100%;
+  }
+
+  .team-side {
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .match-team-name {
+    font-size: 12.5px;
+    line-height: 1.25;
+  }
+
+  .match-team-logo {
+    width: 28px;
+    height: 28px;
+  }
+
+  .match-score-center {
+    min-width: 90px;
+    gap: 8px;
+  }
+
+  .score-digit {
+    font-size: 22px;
+  }
+
+  .match-status-label {
+    font-size: 11px;
+  }
+
+  .match-stadium-name {
+    font-size: 10.5px;
+    margin-top: 0.35rem;
+    letter-spacing: 0.3px;
+  }
+}
+
+@media (max-width: 420px) {
+  .filter-item {
+    flex: 1 1 100%;
+  }
+
+  .match-team-name {
+    font-size: 11.5px;
+  }
+
+  .match-team-logo {
+    width: 24px;
+    height: 24px;
+  }
+
+  .match-score-center {
+    min-width: 76px;
+    gap: 6px;
+  }
+
+  .score-digit {
+    font-size: 20px;
+  }
+}

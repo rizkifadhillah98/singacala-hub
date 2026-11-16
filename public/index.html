@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0c0e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Singacala Hub — Unofficial Fan-Made Laskar Singacala Tracker &amp; Skenario</title>
+  <meta name="description"
+    content="Singacala Hub — Unofficial Fan-Made Laskar Singacala Tracker & Skenario. Klasemen, jadwal, hasil pertandingan, dan simulasi musim 2026/27 Grup A.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="theme-dark">
+
+  <!-- Top App Navigation / Bar with Curved Metallic Header Graphic -->
+  <header class="app-header">
+    <!-- Curved Metallic Graphic Background from Screenshots -->
+    <div class="header-graphic-overlay" aria-hidden="true">
+      <svg viewBox="0 0 900 200" fill="none" preserveAspectRatio="none">
+        <path d="M 320 0 C 480 20, 680 90, 900 200 L 900 0 Z" fill="url(#metallicGrad1)" opacity="0.38" />
+        <path d="M 490 0 C 600 35, 750 110, 900 165 L 900 0 Z" fill="url(#metallicGrad2)" opacity="0.45" />
+        <path d="M 660 0 C 740 30, 830 80, 900 120 L 900 0 Z" fill="url(#metallicGrad3)" opacity="0.25" />
+        <defs>
+          <linearGradient id="metallicGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#474f5e" />
+            <stop offset="60%" stop-color="#242831" />
+            <stop offset="100%" stop-color="#0e1014" />
+          </linearGradient>
+          <linearGradient id="metallicGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#6b7485" />
+            <stop offset="100%" stop-color="#1e222a" />
+          </linearGradient>
+          <linearGradient id="metallicGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#8a94a6" />
+            <stop offset="100%" stop-color="#2a2f3a" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+
+    <div class="header-content-wrapper">
+      <!-- Left: League Circular Emblem Logo -->
+      <a href="#" class="brand-logo-circle" id="brand-home-link" aria-label="Beranda Singacala Hub">
+        <div class="circle-badge-inner">
+          <svg viewBox="0 0 48 48" class="badge-svg" fill="none">
+            <circle cx="24" cy="24" r="22" fill="#ffffff" stroke="#111" stroke-width="2" />
+            <path d="M16 12 C24 12, 32 16, 32 24 C32 32, 24 36, 16 36 L16 12 Z" fill="#0b0c0e" />
+            <circle cx="24" cy="24" r="5" fill="#e11d48" />
+          </svg>
+        </div>
+      </a>
+
+      <!-- Center: Navigation Bars (Main White Pill Bar) -->
+      <div class="header-center-nav">
+        <!-- Main White Floating Pill Bar (Menu Utama) -->
+        <nav class="main-pill-navbar" aria-label="Navigasi Utama">
+          <button class="nav-item-pill active" data-view="standings" id="nav-btn-standings">Klasemen</button>
+          <button class="nav-item-pill" data-view="fixtures" id="nav-btn-fixtures">Jadwal & Hasil</button>
+          <button class="nav-item-pill" data-view="stats" id="nav-btn-stats">Statistik Tim</button>
+          <button class="nav-item-pill" data-view="simulation" id="nav-btn-simulation">Simulator Liga</button>
+        </nav>
+      </div>
+
+      <!-- Right: Language Switcher & Circular Action Buttons -->
+      <div class="header-right-actions">
+        <div class="lang-switcher" id="lang-switcher" role="group" aria-label="Language Selector">
+          <button type="button" class="lang-segment active" data-lang="id" aria-label="Bahasa Indonesia">ID</button>
+          <button type="button" class="lang-segment" data-lang="en" aria-label="English">EN</button>
+        </div>
+
+        <button class="circle-btn" id="btn-open-menu" aria-label="Menu Opsi & Pembaruan">
+          <svg class="circle-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round">
+            <line x1="4" y1="7" x2="20" y2="7" />
+            <line x1="4" y1="12" x2="20" y2="12" />
+            <line x1="4" y1="17" x2="20" y2="17" />
+          </svg>
+        </button>
+
+        <button class="circle-btn" id="btn-open-search" aria-label="Pencarian Klub & Laga">
+          <svg class="circle-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Application Body -->
+  <main class="page-container">
+
+    <!-- ========================================== -->
+    <!-- VIEW 1: STANDINGS (Screenshot 1)           -->
+    <!-- ========================================== -->
+    <section id="view-standings" class="view-section active">
+      <!-- Page Subheader -->
+      <div class="page-subheader">
+        <div class="competition-tag">
+          <span class="competition-tag-text">UNOFFICIAL FAN-MADE TRACKER 2026/27 &bull; GRUP A</span>
+        </div>
+        <h1 class="page-title">Singacala Hub — Klasemen</h1>
+        <p class="page-subtitle" id="standings-updated-label">Updated: Sun, 25 Oct 2026, 18:32 (WIB)</p>
+      </div>
+
+      <!-- Standings Sub-Navigation Tabs: Table vs Progression -->
+      <div class="standings-subnav-bar">
+        <div class="standings-subnav-pills" role="tablist" aria-label="Mode Tampilan Klasemen">
+          <button class="subnav-pill-btn active" data-subview="table" id="btn-subview-table" role="tab"
+            aria-selected="true">
+            <svg class="subnav-pill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" />
+              <line x1="3" y1="9" x2="21" y2="9" />
+              <line x1="9" y1="21" x2="9" y2="9" />
+            </svg>
+            <span>Table</span>
+          </button>
+          <button class="subnav-pill-btn" data-subview="progression" id="btn-subview-progression" role="tab"
+            aria-selected="false">
+            <svg class="subnav-pill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+            </svg>
+            <span>Progression</span>
+          </button>
+          <button class="subnav-pill-btn" data-subview="psgc" id="btn-subview-psgc" role="tab"
+            aria-selected="false">
+            <svg class="subnav-pill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 3v18h18" />
+              <path d="m19 9-5 5-4-4-3 3" />
+            </svg>
+            <span>Peluang PSGC</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Subview Panel 1: Table -->
+      <div id="standings-panel-table" class="standings-subview-panel active">
+        <!-- Standings Table Container -->
+        <div class="standings-table-container">
+          <table class="standings-table" id="standings-table">
+            <thead>
+              <tr>
+                <th class="col-pos sortable" data-sort="posisi">Pos <span class="sort-arrows">⇅</span></th>
+                <th class="col-club sortable" data-sort="klub">Club <span class="sort-arrows">⇅</span></th>
+                <th class="col-stat sortable" data-sort="poin">Pts <span class="sort-arrows">⇅</span></th>
+                <th class="col-stat sortable" data-sort="main">P <span class="sort-arrows">⇅</span></th>
+                <th class="col-stat sortable" data-sort="menang">W <span class="sort-arrows">⇅</span></th>
+                <th class="col-stat sortable" data-sort="seri">D <span class="sort-arrows">⇅</span></th>
+                <th class="col-stat sortable" data-sort="kalah">L <span class="sort-arrows">⇅</span></th>
+                <th class="col-stat sortable" data-sort="gf">GF <span class="sort-arrows">⇅</span></th>
+                <th class="col-stat sortable" data-sort="ga">GA <span class="sort-arrows">⇅</span></th>
+                <th class="col-stat sortable" data-sort="gd">GD <span class="sort-arrows">⇅</span></th>
+                <th class="col-form">Last 5</th>
+              </tr>
+            </thead>
+            <tbody id="standings-table-body">
+              <!-- Populated via Javascript -->
+              <tr>
+                <td colspan="11" class="loading-cell">Memuat data klasemen...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Standings Legend Footer -->
+        <div class="standings-legend-footer">
+          <div class="legend-item">
+            <span class="legend-color-indicator grandfinal"></span>
+            <span>Grand Final & Promosi Otomatis (Peringkat 1)</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color-indicator playoff-promosi"></span>
+            <span>Play-off Promosi (Peringkat 2)</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color-indicator playoff-degradasi"></span>
+            <span>Play-off Degradasi (Peringkat 9)</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color-indicator relegation"></span>
+            <span>Degradasi Langsung (Peringkat 10)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Subview Panel 2: Progression (Matchweek by Matchweek Line Chart) -->
+      <div id="standings-panel-progression" class="standings-subview-panel" style="display: none;">
+        <div class="progression-chart-card">
+          <!-- Progression Controls & Club Chips -->
+          <div class="progression-controls-header">
+            <div class="progression-top-bar">
+              <div class="progression-info">
+                <h3 class="progression-title">Riwayat Posisi Klasemen Pekan ke Pekan</h3>
+                <p class="progression-subtitle">Grafik dinamika peringkat tim dari Pekan 1 hingga sekarang. Peringkat 1
+                  berada di posisi puncak.</p>
+              </div>
+              <div class="progression-range-box">
+                <label for="progression-range-select" class="range-select-label">Rentang Pekan:</label>
+                <div class="range-select-wrapper">
+                  <select id="progression-range-select" class="progression-range-select"
+                    aria-label="Pilih Rentang Pekan">
+                    <option value="CURRENT">Pekan Berjalan (P1 - P9)</option>
+                    <option value="ALL">Semua Pekan (P1 - P27)</option>
+                    <option value="R1">Putaran 1 (P1 - P9)</option>
+                    <option value="R2">Putaran 2 (P10 - P18)</option>
+                    <option value="R3">Putaran 3 (P19 - P27)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <!-- Quick Club Filter Chips -->
+            <div class="progression-chips-wrapper" id="progression-club-chips">
+              <!-- Populated dynamically via JS: "Semua Klub" + chips for each club -->
+            </div>
+          </div>
+
+          <!-- Interactive SVG Line Chart Viewport -->
+          <div class="progression-chart-viewport" id="progression-chart-viewport">
+            <div class="progression-chart-loading">Memuat grafik riwayat posisi...</div>
+          </div>
+
+          <!-- Progression Legend Footer -->
+          <div class="standings-legend-footer progression-legend">
+            <div class="legend-item">
+              <span class="legend-color-indicator grandfinal"></span>
+              <span>Grand Final & Promosi Otomatis (Peringkat 1)</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-color-indicator playoff-promosi"></span>
+              <span>Play-off Promosi (Peringkat 2)</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-color-indicator playoff-degradasi"></span>
+              <span>Play-off Degradasi (Peringkat 9)</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-color-indicator relegation"></span>
+              <span>Degradasi Langsung (Peringkat 10)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Subview Panel 3: PSGC Odds & Analysis -->
+      <div id="standings-panel-psgc" class="standings-subview-panel" style="display: none;">
+        <!-- Populated dynamically via public/js/modules/psgc-odds.js -->
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 2: FIXTURES & RESULTS (Screenshot 2)  -->
+    <!-- ========================================== -->
+    <section id="view-fixtures" class="view-section">
+      <!-- Title -->
+      <div class="page-subheader mb-6">
+        <h1 class="page-title">Jadwal & Hasil</h1>
+      </div>
+
+      <!-- Filters Row -->
+      <div class="fixtures-filter-bar">
+        <!-- Matchweek Dropdown -->
+        <div class="filter-item">
+          <span class="filter-mini-label">Pekan</span>
+          <div class="pill-dropdown-wrap">
+            <button class="pill-dropdown-btn" id="btn-period-dropdown">
+              <svg class="pill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
+              </svg>
+              <span id="selected-period-text">Pekan 8</span>
+              <svg class="chevron-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </button>
+            <div class="pill-dropdown-menu" id="period-menu">
+              <!-- Populated dynamically via Javascript with Matchweeks -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Clubs Dropdown -->
+        <div class="filter-item">
+          <span class="filter-mini-label">Klub</span>
+          <div class="pill-dropdown-wrap">
+            <button class="pill-dropdown-btn" id="btn-clubs-filter">
+              <svg class="pill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="8" x2="12" y2="12" />
+                <line x1="12" y1="16" x2="12.01" y2="16" />
+              </svg>
+              <span id="selected-club-text">Semua Klub</span>
+              <svg class="chevron-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </button>
+            <div class="pill-dropdown-menu" id="clubs-filter-menu">
+              <button class="dropdown-opt active" data-club="all">Semua Klub</button>
+              <!-- Filled via Javascript with clubs -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Date Range Navigator Row with Sort Pill -->
+      <div class="fixtures-date-navigator-row">
+        <!-- Date Navigator (< Sat, 24 Oct ~ Sat, 31 Oct >) -->
+        <div class="date-range-stepper">
+          <button class="stepper-arrow-btn" id="btn-prev-week" aria-label="Minggu Sebelumnya">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </button>
+          <span class="date-range-display" id="date-range-label">Memuat rentang jadwal... (WIB)</span>
+          <button class="stepper-arrow-btn" id="btn-next-week" aria-label="Minggu Berikutnya">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Fixtures Match List Container -->
+      <div class="fixtures-matches-stream" id="fixtures-matches-stream">
+        <!-- Populated via Javascript -->
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 3: STATS & ANALYTICS (J-LEAGUE STYLE) -->
+    <!-- ========================================== -->
+    <section id="view-stats" class="view-section">
+      <!-- SUB-VIEW 1: OVERVIEW 4 CARDS (Image 1) -->
+      <div id="stats-cards-view">
+        <div class="stats-cards-header-bar">
+          <div>
+            <h1 class="page-title">Team Statistics</h1>
+            <p class="page-subtitle" id="stats-subtitle">Statistik performa klub Grup A Musim
+              2026/27</p>
+          </div>
+        </div>
+
+        <!-- Category Filter Pills -->
+        <div class="stats-category-pills" id="stats-category-pills">
+          <button class="stats-cat-pill active" data-category="all">All Metrics (11)</button>
+          <button class="stats-cat-pill" data-category="performance">Performance & Points (3)</button>
+          <button class="stats-cat-pill" data-category="attack">Attack & Goals (3)</button>
+          <button class="stats-cat-pill" data-category="defense">Defense & Goalkeeping (3)</button>
+          <button class="stats-cat-pill" data-category="home-away">Home / Away (2)</button>
+        </div>
+
+        <!-- Grid for the Cards -->
+        <div class="jleague-stats-grid" id="jleague-stats-grid">
+          <!-- Populated dynamically via Javascript: Goals per game, Clean sheets, Points per game, Win rate -->
+        </div>
+      </div>
+
+      <!-- SUB-VIEW 2: DETAILED STAT VIEW (Image 2) -->
+      <div id="stats-detail-view" style="display: none;">
+        <!-- Top Filter Row (Image 2) -->
+        <div class="stats-detail-filter-bar">
+          <div class="filter-item-mini">
+            <span class="filter-mini-title">Stats</span>
+            <div class="pill-dropdown-wrap">
+              <button class="pill-dropdown-btn stat-pill-btn active-filter-pill" id="btn-stat-detail-type">
+                <svg class="pill-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                  stroke-linecap="round">
+                  <line x1="4" y1="7" x2="20" y2="7" />
+                  <line x1="4" y1="12" x2="20" y2="12" />
+                  <line x1="4" y1="17" x2="20" y2="17" />
+                </svg>
+                <span id="stat-detail-type-text">Clean sheets</span>
+              </button>
+              <div class="pill-dropdown-menu" id="stat-detail-type-menu">
+                <button class="dropdown-opt" data-stat="points-per-game">Points per game</button>
+                <button class="dropdown-opt" data-stat="win-rate">Win rate</button>
+                <button class="dropdown-opt" data-stat="unbeaten-rate">Unbeaten rate</button>
+                <button class="dropdown-opt" data-stat="goal-diff">Goal difference (GD)</button>
+                <button class="dropdown-opt" data-stat="goals-per-game">Goals per game</button>
+                <button class="dropdown-opt" data-stat="total-goals">Total goals scored (GF)</button>
+                <button class="dropdown-opt active" data-stat="clean-sheets">Clean sheets</button>
+                <button class="dropdown-opt" data-stat="fewest-conceded">Fewest goals conceded (GA)</button>
+                <button class="dropdown-opt" data-stat="goals-conceded-per-game">Goals conceded per game</button>
+                <button class="dropdown-opt" data-stat="home-record">Home record</button>
+                <button class="dropdown-opt" data-stat="away-record">Away record</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="filter-item-mini">
+            <span class="filter-mini-title">Clubs</span>
+            <div class="pill-dropdown-wrap">
+              <button class="pill-dropdown-btn stat-pill-btn" id="btn-stat-detail-club">
+                <svg class="pill-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                  stroke-linecap="round">
+                  <line x1="4" y1="7" x2="20" y2="7" />
+                  <line x1="4" y1="12" x2="20" y2="12" />
+                  <line x1="4" y1="17" x2="20" y2="17" />
+                </svg>
+                <span id="stat-detail-club-text">All Clubs</span>
+              </button>
+              <div class="pill-dropdown-menu" id="stat-detail-club-menu">
+                <button class="dropdown-opt active" data-club="all">All Clubs</button>
+                <!-- Filled via JS -->
+              </div>
+            </div>
+          </div>
+
+          <div class="stat-detail-actions-right">
+            <button class="stats-back-btn" id="btn-stat-back-overview">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                style="width: 14px; height: 14px;">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+              </svg>
+              <span>Kembali ke Overview</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Detail Heading (Image 2) -->
+        <h2 class="stat-detail-title" id="stat-detail-heading">Clean sheets</h2>
+
+        <!-- Detail Full Ranked Table (Image 2) -->
+        <div class="stat-detail-table-container">
+          <table class="stat-detail-table">
+            <thead>
+              <tr>
+                <th class="col-pos-detail">Pos</th>
+                <th class="col-club-detail">Clubs</th>
+                <th class="col-stat-detail">Stats</th>
+              </tr>
+            </thead>
+            <tbody id="stat-detail-table-body">
+              <!-- Populated via Javascript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 4: SIMULATION (SIMULATOR LIGA)        -->
+    <!-- ========================================== -->
+    <section id="view-simulation" class="view-section">
+      <!-- Populated dynamically via simulation.js -->
+      <div style="text-align: center; padding: 4rem 1rem; color: var(--text-dim);">
+        <div style="font-size: 2rem; margin-bottom: 1rem;">⚙️</div>
+        <p>Memuat Simulator Singacala Hub...</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================== -->
+  <!-- SIDE DRAWER: HAMBURGER MENU               -->
+  <!-- ========================================== -->
+  <div class="drawer-backdrop" id="drawer-backdrop"></div>
+  <aside class="side-drawer" id="side-drawer" aria-label="Menu Aplikasi">
+    <div class="drawer-header">
+      <div class="drawer-brand">
+        <div class="drawer-logo-dot"></div>
+        <span>SINGACALA HUB</span>
+      </div>
+      <button class="drawer-close-btn" id="btn-close-drawer" aria-label="Tutup Menu">✕</button>
+    </div>
+
+    <div class="drawer-content">
+      <!-- Admin Protected Section (Hidden for normal visitors by default) -->
+      <div class="drawer-section" id="drawer-admin-section" style="display: none;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+          <span class="drawer-section-title" style="margin-bottom: 0;">ADMIN: SINKRONISASI DATA</span>
+          <span class="admin-badge"
+            style="font-size: 10px; background: rgba(225, 29, 72, 0.2); color: #f43f5e; border: 1px solid rgba(225, 29, 72, 0.4); padding: 2px 6px; border-radius: 4px; font-weight: 700;">ADMIN</span>
+        </div>
+        <button class="drawer-action-btn" id="btn-sync-standings">
+          <div class="btn-action-icon">📊</div>
+          <div class="btn-action-meta">
+            <strong>Update Klasemen Terbaru</strong>
+            <small>Sinkronisasi instan dari ileague.id (~1 detik)</small>
+          </div>
+        </button>
+        <button class="drawer-action-btn" id="btn-sync-fixtures">
+          <div class="btn-action-icon">📅</div>
+          <div class="btn-action-meta">
+            <strong>Update Seluruh Jadwal & Hasil</strong>
+            <small>Pindai pekan 1 hingga pekan 27</small>
+          </div>
+        </button>
+
+        <!-- In-Memory Dummy Weekly Update Testing Panel -->
+        <div class="drawer-dummy-box" id="drawer-dummy-box">
+          <div class="drawer-dummy-header">
+            <span class="drawer-dummy-title">TEST UPDATE DUMMY (IN-MEMORY)</span>
+            <span class="drawer-dummy-status" id="dummy-status-label">Data Resmi</span>
+          </div>
+          <div class="drawer-dummy-outcome-row">
+            <label class="drawer-dummy-outcome-label" for="dummy-psgc-outcome">Hasil PSGC:</label>
+            <select class="drawer-dummy-select" id="dummy-psgc-outcome">
+              <option value="random">Acak Realistis</option>
+              <option value="win">Menang (+3 Poin)</option>
+              <option value="draw">Seri (+1 Poin)</option>
+              <option value="loss">Kalah (0 Poin)</option>
+            </select>
+          </div>
+          <button class="drawer-action-btn" id="btn-dummy-next-week" type="button">
+            <div class="btn-action-meta">
+              <strong>Simulasikan Update Pekan +1</strong>
+              <small id="dummy-next-week-sub">Terapkan hasil dummy Pekan 10 (tanpa ubah file server)</small>
+            </div>
+          </button>
+          <button class="drawer-dummy-reset-btn" id="btn-dummy-reset" type="button" disabled>
+            Reset ke Data Resmi
+          </button>
+        </div>
+
+        <button id="btn-admin-logout"
+          style="width: 100%; margin-top: 8px; background: transparent; border: 1px dashed rgba(255,255,255,0.18); color: #94a3b8; font-size: 11px; padding: 6px; border-radius: 6px; cursor: pointer; text-align: center; transition: all 0.2s;">
+          🔒 Keluar dari Mode Admin
+        </button>
+      </div>
+
+      <div class="drawer-section">
+        <span class="drawer-section-title">NAVIGASI MENU</span>
+        <button class="drawer-link-btn" data-view="standings">🏆 Tabel Klasemen Lengkap</button>
+        <button class="drawer-link-btn" data-view="fixtures">📅 Jadwal & Hasil</button>
+        <button class="drawer-link-btn" data-view="stats">📈 Analisis & Statistik Tim</button>
+        <button class="drawer-link-btn" data-view="simulation">🎮 Simulator Liga 2026/27</button>
+      </div>
+
+      <div class="drawer-section">
+        <span class="drawer-section-title">INFORMASI SUMBER DATA</span>
+        <div class="info-box">
+          <p>Data diambil langsung secara resmi dari portal kompetisi nasional Liga Indonesia di <a
+              href="https://www.ileague.id" target="_blank" rel="noopener">ileague.id</a>.</p>
+          <div class="sync-time-stamp" id="drawer-sync-timestamp">Terakhir diperbarui: Memuat...</div>
+          <div
+            style="margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 6px; text-align: right;">
+            <button id="btn-open-admin-prompt"
+              style="background: none; border: none; color: #475569; font-size: 11px; cursor: pointer; padding: 2px 4px; transition: color 0.2s;"
+              title="Otentikasi Pengelola Situs">
+              Admin Access
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ========================================== -->
+  <!-- MODAL: QUICK SEARCH                       -->
+  <!-- ========================================== -->
+  <div class="modal-backdrop" id="search-modal-backdrop">
+    <div class="search-modal-box">
+      <div class="search-input-wrapper">
+        <svg class="search-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <input type="text" id="quick-search-input" placeholder="Cari klub, stadion, atau jadwal laga..."
+          autocomplete="off">
+        <button class="search-clear-btn" id="btn-search-close">ESC</button>
+      </div>
+      <div class="search-results-list" id="search-results-list">
+        <div class="search-empty-prompt">Ketik nama klub seperti "PSPS", "PERSIKAD", "SEMEN PADANG"...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: BROADCAST INFO ("Where to watch")  -->
+  <!-- ========================================== -->
+  <div class="modal-backdrop" id="broadcast-modal-backdrop">
+    <div class="info-modal-box">
+      <div class="info-modal-header">
+        <h3 class="info-modal-title">Where to Watch</h3>
+        <button class="info-modal-close" id="btn-close-broadcast">✕</button>
+      </div>
+      <div class="info-modal-body" id="broadcast-modal-body">
+        <!-- Filled via Javascript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================== -->
+  <!-- MODAL: PUTARAN 3 REGULATORY FIXTURES & REASONING   -->
+  <!-- ================================================== -->
+  <div class="r3-modal-backdrop" id="r3-regulatory-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="r3-modal-title">
+    <div class="r3-modal-box">
+      <!-- Modal Header -->
+      <div class="r3-modal-header">
+        <div class="r3-modal-header-text">
+          <div class="r3-modal-tag-row">
+            <span class="r3-modal-pill-tag" id="r3-modal-group-badge">PUTARAN 3 &bull; GRUP A</span>
+            <span class="r3-modal-subtag">Regulasi PSSI Pasal 7 Ayat 3 &amp; 4</span>
+          </div>
+          <h3 class="r3-modal-title" id="r3-modal-title">Jadwal &amp; Alasan Regulasi Putaran 3</h3>
+          <p class="r3-modal-subtitle" id="r3-modal-subtitle">Hasil undian otomatis Pekan 19–27 berdasarkan posisi akhir Putaran 2.</p>
+        </div>
+        <button class="r3-modal-close-btn" id="btn-close-r3-modal" aria-label="Tutup Popup">✕</button>
+      </div>
+
+      <!-- Regulatory Summary Briefing Bar -->
+      <div class="r3-modal-summary" id="r3-modal-summary">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Week Navigation Tabs (Pekan 19 s/d 27) -->
+      <div class="r3-week-nav" id="r3-week-nav" role="tablist" aria-label="Pilih Pekan Putaran 3">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Matches & Reasons Stream for Selected Week -->
+      <div class="r3-modal-body" id="r3-modal-body" role="tabpanel">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="r3-modal-footer">
+        <div class="r3-footer-info">
+          <span class="r3-footer-pill">Total 45 Pertandingan</span>
+          <span class="r3-footer-note">Top 5: 5 Kandang / 4 Tandang &bull; Posisi 6–10: 4 Kandang / 5 Tandang</span>
+        </div>
+        <div class="r3-footer-buttons">
+          <button class="sim-btn sim-btn-secondary" id="btn-r3-modal-dismiss">
+            <span>Tutup</span>
+          </button>
+          <button class="sim-btn sim-btn-secondary" id="btn-r3-modal-proceed">
+            <span>Lanjutkan ke Simulasi</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live Toast Notification -->
+  <div id="toast" class="toast-notification">
+    <div class="toast-icon" id="toast-icon">ℹ️</div>
+    <div class="toast-body">
+      <strong id="toast-title">Pemberitahuan</strong>
+      <p id="toast-message">Proses sedang berjalan...</p>
+    </div>
+  </div>
+
+  <!-- Mobile Bottom Navigation Bar (Visible on mobile <= 768px) -->
+  <nav class="mobile-bottom-nav" id="mobile-bottom-nav" aria-label="Navigasi Bawah Mobile">
+    <button class="mobile-nav-item active" data-view="standings" id="mobile-nav-standings">
+      <svg class="mobile-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+        <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+        <path d="M4 22h16" />
+        <path d="M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1v-2.34" />
+        <path d="M14 14.66V17c0 .55.45 1 1 1h2c.55 0 1-.45 1-1v-2.34" />
+        <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
+      </svg>
+      <span class="mobile-nav-label">Klasemen</span>
+    </button>
+    <button class="mobile-nav-item" data-view="fixtures" id="mobile-nav-fixtures">
+      <svg class="mobile-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+        <line x1="16" y1="2" x2="16" y2="6" />
+        <line x1="8" y1="2" x2="8" y2="6" />
+        <line x1="3" y1="10" x2="21" y2="10" />
+      </svg>
+      <span class="mobile-nav-label">Jadwal</span>
+    </button>
+    <button class="mobile-nav-item" data-view="stats" id="mobile-nav-stats">
+      <svg class="mobile-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="20" x2="18" y2="10" />
+        <line x1="12" y1="20" x2="12" y2="4" />
+        <line x1="6" y1="20" x2="6" y2="14" />
+      </svg>
+      <span class="mobile-nav-label">Statistik</span>
+    </button>
+    <button class="mobile-nav-item" data-view="simulation" id="mobile-nav-simulation">
+      <svg class="mobile-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10" />
+        <polygon points="10 8 16 12 10 16 10 8" fill="currentColor" />
+      </svg>
+      <span class="mobile-nav-label">Simulator</span>
+    </button>
+  </nav>
+
+  <!-- App Footer -->
+  <footer class="app-footer">
+    <div class="footer-container">
+      <p class="footer-copy">Singacala Hub — Unofficial Fan-Made Laskar Singacala Tracker &amp; Skenario</p>
+      <p class="footer-sub">
+        Platform ini merupakan proyek hobi dan edukasi independen yang dikembangkan semata-mata untuk kesenangan serta
+        visualisasi data penggemar sepak bola. Situs ini sama sekali tidak ditujukan untuk tujuan komersial, monetisasi,
+        maupun perolehan keuntungan materiil dalam bentuk apa pun, serta tidak berafiliasi dengan federasi, operator
+        liga, ataupun sponsor resmi. Seluruh nama klub, logo, dan merek dagang adalah hak milik eksklusif dari pemegang
+        hak cipta masing-masing. Informasi jadwal dan statistik dirujuk dari portal publik <a
+          href="https://www.ileague.id" target="_blank" rel="noopener">ileague.id</a>.
+      </p>
+    </div>
+  </footer>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+
+</html>

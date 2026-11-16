@@ -1,0 +1,1976 @@
+/* ==========================================================================
+   STANDINGS COMPONENT (Table, Ranks, Left Indicator Bars, Form Badges)
+   ========================================================================== */
+
+.standings-filters-row {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1.75rem;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.filter-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.select-pill-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.select-pill {
+  appearance: none;
+  background-color: var(--bg-surface-elevated);
+  color: var(--text-white);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  padding: 7px 34px 7px 14px;
+  font-family: var(--font-main);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.select-pill:hover,
+.select-pill:focus {
+  border-color: var(--border-strong);
+}
+
+.select-chevron {
+  position: absolute;
+  right: 10px;
+  width: 16px;
+  height: 16px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+/* Standings Table Container */
+.standings-table-container {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  overflow-x: auto;
+  box-shadow: var(--shadow-elevated);
+}
+
+.standings-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.standings-table th {
+  padding: 14px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-subtle);
+  white-space: nowrap;
+}
+
+.standings-table th.sortable {
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.15s ease;
+}
+
+.standings-table th.sortable:hover {
+  color: var(--text-white);
+}
+
+.sort-arrows {
+  font-size: 11px;
+  opacity: 0.6;
+  margin-left: 2px;
+}
+
+.standings-table td {
+  padding: 13px 12px;
+  font-size: 14px;
+  color: var(--text-primary);
+  vertical-align: middle;
+}
+
+.standings-table tbody tr {
+  position: relative;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background-color 0.15s ease;
+}
+
+.standings-table tbody tr:hover {
+  background-color: var(--bg-hover);
+}
+
+/* PSGC Ciamis Fan Perspective Highlight (Crisp White Outline / Border) */
+.standings-table tbody tr.psgc-row {
+  outline: 1px solid #ffffff;
+  outline-offset: -1px;
+  box-shadow: inset 0 0 0 1px #ffffff;
+  background-color: #161a22 !important;
+  position: relative;
+  z-index: 2;
+}
+
+.standings-table tbody tr.psgc-row:hover {
+  background-color: #1c222e !important;
+}
+
+.standings-table tbody tr.psgc-row td {
+  border-top: 1px solid #ffffff !important;
+  border-bottom: 1px solid #ffffff !important;
+}
+
+.standings-table tbody tr.psgc-row td:first-child {
+  border-left: 1px solid #ffffff !important;
+}
+
+.standings-table tbody tr.psgc-row td:first-child::before {
+  display: none !important;
+}
+
+.standings-table tbody tr.psgc-row td:last-child {
+  border-right: 1px solid #ffffff !important;
+}
+
+/* Left Indicator Bars on Table Rows */
+.standings-table tbody tr.rank-grandfinal td:first-child::before,
+.standings-table tbody tr.rank-promotion td:first-child::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: var(--color-green);
+  border-radius: 2px 0 0 2px;
+}
+
+.standings-table tbody tr.rank-playoff-promosi td:first-child::before,
+.standings-table tbody tr.rank-playoff td:first-child::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  border-left: 3px dashed var(--color-blue);
+}
+
+.standings-table tbody tr.rank-playoff-degradasi td:first-child::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  border-left: 3px dashed var(--color-red);
+}
+
+.standings-table tbody tr.rank-relegation td:first-child::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: var(--color-red);
+  border-radius: 2px 0 0 2px;
+}
+
+/* Table Column Widths & Alignments */
+.col-pos {
+  width: 75px;
+  text-align: center;
+}
+
+.col-club {
+  min-width: 230px;
+  text-align: left;
+}
+
+.col-stat {
+  width: 52px;
+  text-align: center;
+}
+
+.col-form {
+  width: 170px;
+  text-align: center;
+}
+
+/* Rank Cell */
+.pos-cell-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.rank-number {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-white);
+  min-width: 20px;
+}
+
+.rank-trend-icon {
+  font-size: 9px;
+  font-weight: 800;
+  display: inline-block;
+  min-width: 10px;
+}
+
+.rank-trend-icon.up {
+  color: var(--color-green);
+}
+
+.rank-trend-icon.down {
+  color: var(--color-red);
+}
+
+.rank-trend-icon.neutral {
+  opacity: 0;
+}
+
+/* Club Cell */
+.club-cell-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.club-emblem {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  flex-shrink: 0;
+}
+
+.club-title {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text-white);
+  letter-spacing: 0.1px;
+}
+
+.penalty-tag {
+  font-size: 11px;
+  font-weight: 700;
+  color: #f87171;
+  background: rgba(239, 68, 68, 0.15);
+  padding: 1px 6px;
+  border-radius: 4px;
+  margin-left: 6px;
+}
+
+/* Points Cell */
+.pts-highlight {
+  font-size: 15.5px;
+  font-weight: 800;
+  color: var(--text-white);
+}
+
+/* Last 5 Form Badges */
+.form-badges-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.form-circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  color: #ffffff;
+  position: relative;
+  user-select: none;
+}
+
+.form-circle.w {
+  background-color: var(--color-green-form);
+}
+
+.form-circle.d {
+  background-color: var(--color-gray-form);
+}
+
+.form-circle.l {
+  background-color: var(--color-red);
+}
+
+/* Tiny dot on latest match badge */
+.form-circle.latest::after {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 3px;
+  background-color: #ffffff;
+  border-radius: 50%;
+}
+
+.loading-cell {
+  text-align: center;
+  padding: 3rem 1rem !important;
+  color: var(--text-muted);
+}
+
+/* Standings Legend Footer */
+.standings-legend-footer {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 1.25rem;
+  padding: 0 0.5rem;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
+.legend-color-indicator {
+  width: 14px;
+  height: 4px;
+  border-radius: 2px;
+}
+
+.legend-color-indicator.grandfinal,
+.legend-color-indicator.promotion {
+  background-color: var(--color-green);
+}
+
+.legend-color-indicator.playoff-promosi,
+.legend-color-indicator.playoff {
+  border-top: 3px dashed var(--color-blue);
+  height: 0;
+}
+
+.legend-color-indicator.playoff-degradasi {
+  border-top: 3px dashed var(--color-red);
+  height: 0;
+}
+
+.legend-color-indicator.relegation {
+  background-color: var(--color-red);
+}
+
+/* ==========================================================================
+   STANDINGS SUBVIEW TABS (Table vs Progression)
+   ========================================================================== */
+.standings-subnav-bar {
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.standings-subnav-pills {
+  display: inline-flex;
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-medium);
+  padding: 4px;
+  border-radius: var(--radius-full);
+  gap: 4px;
+}
+
+.subnav-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-family: var(--font-display, inherit);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 7px 18px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.subnav-pill-icon {
+  width: 15px;
+  height: 15px;
+}
+
+.subnav-pill-btn:hover {
+  color: var(--text-white);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.subnav-pill-btn.active {
+  background: #ffffff;
+  color: #0b0c0e;
+  font-weight: 700;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+
+.subnav-pill-btn.active .subnav-pill-icon {
+  stroke: #0b0c0e;
+}
+
+/* Subview Panels */
+.standings-subview-panel {
+  display: none;
+  animation: fadeInPanel 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.standings-subview-panel.active {
+  display: block;
+}
+
+@keyframes fadeInPanel {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================================
+   PROGRESSION CHART CARD & VISUALIZATION
+   ========================================================================== */
+.progression-chart-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.progression-controls-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 1.25rem;
+}
+
+.progression-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.progression-range-box {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.range-select-label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.range-select-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.progression-range-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-sm, 6px);
+  color: var(--text-white, #ffffff);
+  padding: 6px 30px 6px 12px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2394a3b8' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: calc(100% - 10px) center;
+}
+
+.progression-range-select:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.progression-range-select:focus {
+  border-color: var(--color-green, #00e676);
+  box-shadow: 0 0 0 2px rgba(0, 230, 118, 0.15);
+}
+
+.progression-range-select option {
+  background-color: #12161f;
+  color: #f1f5f9;
+  padding: 6px;
+}
+
+.btn-subnav-reset {
+  margin-top: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-sm, 6px);
+  color: #ffffff;
+  padding: 6px 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-subnav-reset:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #ffffff;
+}
+
+.progression-title {
+  font-size: 16.5px;
+  font-weight: 700;
+  color: var(--text-white);
+  margin-bottom: 4px;
+  letter-spacing: -0.2px;
+}
+
+.progression-subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* Club Filter Chips */
+.progression-chips-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.chart-club-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: var(--radius-full);
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.chart-club-chip:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-1px);
+}
+
+.chart-club-chip.active {
+  border-color: #ffffff;
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
+}
+
+.chart-club-chip.chip-psgc {
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  box-shadow: 0 0 0 1px #ffffff;
+}
+
+.chip-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.chip-dot.all {
+  background: linear-gradient(135deg, #00e676, #00d2ff, #f59e0b, #ef4444);
+}
+
+.chip-emblem {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Chart Viewport & SVG Container */
+.progression-chart-viewport {
+  position: relative;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  background: #090a0d;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  padding: 1rem 0;
+  margin-bottom: 1.25rem;
+}
+
+.chart-scroll-wrap {
+  min-width: 720px;
+  width: 100%;
+}
+
+.progression-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.progression-chart-loading,
+.chart-empty-state {
+  text-align: center;
+  padding: 3.5rem 1rem;
+  color: var(--text-muted);
+  font-size: 13.5px;
+}
+
+/* SVG Line & Node transitions */
+.club-line {
+  transition: stroke-width 0.25s ease, stroke-opacity 0.25s ease;
+  cursor: pointer;
+}
+
+.club-line.psgc-line {
+  stroke: #ffffff !important;
+}
+
+.club-end-logo.psgc-end-logo {
+  filter: drop-shadow(0 0 6px #ffffff);
+}
+
+.club-line:hover {
+  stroke-width: 4.2px !important;
+  stroke-opacity: 1 !important;
+}
+
+.club-node-hit {
+  cursor: pointer;
+}
+
+#chart-hover-indicator {
+  transition: r 0.15s ease;
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.65));
+}
+
+/* Club End Logo at the final week (Hanya Logo Saja) */
+.club-end-logo {
+  cursor: pointer;
+  transition: opacity 0.2s ease, filter 0.2s ease, transform 0.2s ease;
+}
+
+.club-end-logo.dimmed {
+  opacity: 0.18;
+}
+
+.club-end-logo.highlighted {
+  opacity: 1;
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.65));
+}
+
+.club-end-logo:hover {
+  opacity: 1 !important;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
+}
+
+/* Interactive Floating Tooltip */
+.progression-tooltip {
+  position: absolute;
+  pointer-events: none;
+  z-index: 60;
+  background: rgba(13, 16, 22, 0.96);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+  padding: 11px 13px;
+  min-width: 200px;
+  max-width: 270px;
+  font-size: 12px;
+  color: var(--text-primary);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.tooltip-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+
+.tooltip-emblem {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.tooltip-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 11.5px;
+}
+
+.tooltip-pill {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.tooltip-rank {
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.tooltip-stats {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 6px;
+  font-size: 11.5px;
+  color: #cbd5e1;
+}
+
+.tooltip-match-row {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+}
+
+.tooltip-res-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 800;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.tooltip-res-badge.w {
+  background-color: var(--color-green-form);
+}
+
+.tooltip-res-badge.d {
+  background-color: var(--color-gray-form);
+}
+
+.tooltip-res-badge.l {
+  background-color: var(--color-red);
+}
+
+.tooltip-match-text {
+  color: var(--text-white);
+  font-weight: 500;
+}
+
+.progression-legend {
+  margin-top: 0.5rem;
+}
+
+/* ==========================================================================
+   MOBILE RESPONSIVE STYLES (Standings Table & Progression Chart)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+
+  /* Subview Pill Buttons (Table vs Progression vs PSGC) */
+  .standings-subnav-bar {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .standings-subnav-pills {
+    display: flex;
+    width: 100%;
+  }
+
+  .subnav-pill-btn {
+    flex: 1;
+    justify-content: center;
+    padding: 7px 8px;
+    font-size: 11.5px;
+    gap: 5px;
+    white-space: nowrap;
+  }
+
+  .subnav-pill-icon {
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
+  }
+
+  /* Sticky Freeze Columns on Standings Table */
+  .standings-table-container {
+    border-radius: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .standings-table th,
+  .standings-table td {
+    padding: 10px 6px;
+    font-size: 12.5px;
+  }
+
+  /* Column 1: Pos (Sticky Left 0) */
+  .col-pos,
+  .standings-table th.col-pos,
+  .standings-table td.col-pos {
+    position: sticky;
+    left: 0;
+    z-index: 5;
+    background-color: #12141a;
+    width: 44px;
+    min-width: 44px;
+    padding-left: 8px;
+  }
+
+  /* Column 2: Club (Sticky Left 44px with shadow separator) */
+  .col-club,
+  .standings-table th.col-club,
+  .standings-table td.col-club {
+    position: sticky;
+    left: 44px;
+    z-index: 5;
+    background-color: #12141a;
+    min-width: 135px;
+    max-width: 155px;
+    box-shadow: 4px 0 8px -2px rgba(0, 0, 0, 0.45);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .standings-table tbody tr:hover td.col-pos,
+  .standings-table tbody tr:hover td.col-club {
+    background-color: #1a1e27;
+  }
+
+  .club-cell-wrap {
+    gap: 8px;
+  }
+
+  .club-emblem {
+    width: 22px;
+    height: 22px;
+  }
+
+  .club-title {
+    font-size: 12px;
+    font-weight: 600;
+    max-width: 95px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .pos-cell-wrap {
+    gap: 4px;
+  }
+
+  .rank-number {
+    font-size: 13px;
+    min-width: 14px;
+  }
+
+  /* Stat Columns */
+  .col-stat,
+  .standings-table th.col-stat,
+  .standings-table td.col-stat {
+    width: 38px;
+    min-width: 38px;
+    font-size: 12px;
+    text-align: center;
+  }
+
+  .col-form,
+  .standings-table th.col-form,
+  .standings-table td.col-form {
+    min-width: 135px;
+  }
+
+  .form-badge-mini {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+  }
+
+  /* Legend Footer */
+  .standings-legend-footer {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    padding: 0.85rem;
+    font-size: 11.5px;
+  }
+
+  /* Progression Chart Mobile */
+  .progression-chart-card {
+    padding: 1rem 0.75rem;
+  }
+
+  .progression-top-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .progression-title {
+    font-size: 15px;
+  }
+
+  .progression-subtitle {
+    font-size: 12px;
+  }
+
+  .progression-range-box {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .range-select-wrapper {
+    flex: 1;
+  }
+
+  .progression-range-select {
+    width: 100%;
+  }
+
+  /* Single-line swipeable horizontal chips */
+  .progression-chips-wrapper {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 6px;
+  }
+
+  .progression-chips-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+
+  .chart-club-chip {
+    flex-shrink: 0;
+    padding: 5px 10px;
+    font-size: 11.5px;
+    height: 30px;
+  }
+
+  .chip-emblem {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+/* ==========================================================================
+   PSGC CIAMIS ODDS & ANALYSIS PANEL (J.LEAGUE FLAT ATHLETIC MONOCHROME)
+   STRICT RULES: Container background #11141a, border 1px solid #242934,
+   ZERO colored left borders, ZERO emojis, bold #ffffff numeric values.
+   ========================================================================== */
+.psgc-panel-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.psgc-card {
+  background: #11141a;
+  border: 1px solid #242934;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  position: relative;
+}
+
+.psgc-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid #242934;
+  padding-bottom: 0.85rem;
+}
+
+.psgc-card-title {
+  font-family: var(--font-display, inherit);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.psgc-card-subtitle {
+  font-size: 0.82rem;
+  color: #94a3b8;
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* Section 1: Hero Metrics Grid */
+.psgc-hero-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.psgc-stat-box {
+  background: #161a22;
+  border: 1px solid #242934;
+  border-radius: 6px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.psgc-stat-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.psgc-stat-value {
+  font-family: var(--font-display, inherit);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.psgc-stat-subtext {
+  font-size: 0.75rem;
+  color: #cbd5e1;
+}
+
+/* Section 2: Probability Matrix Cards Grid */
+.psgc-matrix-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.psgc-prob-card {
+  background: #161a22;
+  border: 1px solid #242934;
+  border-radius: 6px;
+  padding: 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.psgc-prob-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.psgc-prob-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #cbd5e1;
+}
+
+.psgc-prob-val {
+  font-family: var(--font-display, inherit);
+  font-size: 2rem;
+  font-weight: 800;
+  color: #ffffff;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+.psgc-prob-desc {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  line-height: 1.4;
+}
+
+/* Section 3: Roadmap Cards */
+.psgc-roadmap-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.psgc-roadmap-item {
+  background: #161a22;
+  border: 1px solid #242934;
+  border-radius: 6px;
+  padding: 1.1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.psgc-roadmap-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  flex: 1;
+  min-width: 220px;
+}
+
+.psgc-roadmap-target {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.psgc-roadmap-req {
+  font-size: 0.84rem;
+  color: #94a3b8;
+}
+
+.psgc-roadmap-sub {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+/* Badges */
+.psgc-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: #1e2430;
+  color: #cbd5e1;
+  border: 1px solid #2e3646;
+  white-space: nowrap;
+}
+
+.psgc-badge-win,
+.psgc-badge-tight,
+.psgc-badge-tough {
+  background: #1e2430;
+  color: #e2e8f0;
+  border: 1px solid #2e3646;
+}
+
+.psgc-badge-sixpointer {
+  background: #242934;
+  color: #ffffff;
+  border: 1px solid #3b4455;
+}
+
+.psgc-badge-h2h {
+  background: #242934;
+  color: #ffffff;
+  border: 1px solid #3b4455;
+  font-variant-numeric: tabular-nums;
+  min-width: 102px;
+  justify-content: center;
+}
+
+/* Section 4: Fixtures Stream (Jadwal Liga Match Card Format) */
+.psgc-fixtures-stream {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.psgc-empty-fixtures {
+  background: #161a22;
+  border: 1px solid #242934;
+  border-radius: 8px;
+  padding: 1.5rem 1.25rem;
+  text-align: center;
+}
+
+.psgc-empty-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.35rem;
+}
+
+.psgc-empty-desc {
+  font-size: 0.82rem;
+  color: #94a3b8;
+  line-height: 1.45;
+}
+
+.match-card-row.psgc-fixture-card {
+  width: 100%;
+  background: #161a22;
+  border: 1px solid #242934;
+  outline: none;
+  border-radius: 8px;
+  padding: 1.4rem 1.25rem;
+  margin: 0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.match-card-row.psgc-fixture-card:hover {
+  background-color: #1a1f2a;
+  border-color: #3b4455;
+}
+
+.psgc-fixture-card .match-ko-time {
+  width: 100%;
+  max-width: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #1e232e;
+}
+
+.psgc-mw-pill {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.psgc-ko-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.psgc-date-short {
+  display: none;
+}
+
+.psgc-date-full {
+  display: inline;
+}
+
+.psgc-ko-dot {
+  color: #64748b;
+}
+
+.psgc-ko-clock {
+  color: #cbd5e1;
+  font-weight: 700;
+}
+
+.psgc-fixture-card .match-teams-score-line {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  width: 100%;
+  max-width: 720px;
+  margin: 0.15rem auto 0;
+  gap: 1.25rem;
+}
+
+.psgc-fixture-card .team-side {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.psgc-fixture-card .team-side.home {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.psgc-fixture-card .team-side.away {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.psgc-fixture-card .match-team-name {
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--text-white);
+  line-height: 1.25;
+}
+
+.psgc-fixture-card .match-team-logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.psgc-team-info {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.psgc-fixture-card .team-side.home .psgc-team-info {
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+  text-align: right;
+}
+
+.psgc-fixture-card .team-side.away .psgc-team-info {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.psgc-opp-rank {
+  display: inline-flex;
+  align-items: center;
+  background: #1e2430;
+  border: 1px solid #2e3646;
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 0.68rem;
+  color: #94a3b8;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.3;
+  font-variant-numeric: tabular-nums;
+}
+
+.psgc-fixture-card .match-score-center {
+  min-width: auto;
+  gap: 0;
+}
+
+.psgc-fixture-card .match-vs-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #1e2430;
+  border: 1px solid #2e3646;
+  color: #94a3b8;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+
+.psgc-fixture-card .match-stadium-name {
+  margin-top: 0.7rem;
+  font-size: 11.5px;
+  color: #94a3b8;
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+
+.psgc-match-tactical-footer {
+  width: 100%;
+  max-width: none;
+  margin-top: 1rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid #242934;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  text-align: left;
+}
+
+.psgc-tactical-row {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.psgc-tactical-heading {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  min-width: 140px;
+}
+
+.psgc-badges-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.psgc-tactical-notes-text {
+  font-size: 0.85rem;
+  color: #f1f5f9;
+  font-weight: 500;
+  line-height: 1.45;
+  flex: 1;
+}
+
+.psgc-h2h-row {
+  display: grid;
+  grid-template-columns: 140px auto 1fr;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.psgc-h2h-header {
+  display: contents;
+}
+
+.psgc-h2h-meetings {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.psgc-h2h-meeting-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.psgc-h2h-meta {
+  min-width: 148px;
+  justify-content: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.psgc-h2h-scoreline {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: #cbd5e1;
+  font-weight: 500;
+  line-height: 1.45;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.psgc-h2h-team {
+  color: #e2e8f0;
+  min-width: 0;
+}
+
+.psgc-h2h-score {
+  color: #ffffff;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  padding: 0 2px;
+  white-space: nowrap;
+}
+
+/* Fallback / Table styles if referenced */
+.psgc-fixtures-table-wrap {
+  overflow-x: auto;
+  border: 1px solid #242934;
+  border-radius: 6px;
+}
+
+.psgc-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.84rem;
+}
+
+.psgc-table th {
+  background: #161a22;
+  color: #94a3b8;
+  font-weight: 700;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 10px 14px;
+  border-bottom: 1px solid #242934;
+  white-space: nowrap;
+}
+
+.psgc-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #1a1e27;
+  color: #f1f5f9;
+  vertical-align: middle;
+}
+
+.psgc-table tr:last-child td {
+  border-bottom: none;
+}
+
+.psgc-table tr:hover {
+  background: #141820;
+}
+
+.psgc-table .col-mw {
+  font-weight: 700;
+  color: #ffffff;
+  width: 60px;
+}
+
+.psgc-table .col-date {
+  color: #94a3b8;
+  white-space: nowrap;
+}
+
+.psgc-table .col-opp {
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.psgc-table .col-venue {
+  color: #cbd5e1;
+  white-space: nowrap;
+}
+
+.psgc-table .col-class {
+  white-space: nowrap;
+}
+
+.psgc-table .col-notes {
+  color: #94a3b8;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 768px) {
+  .psgc-panel-container {
+    gap: 1rem;
+  }
+
+  .psgc-card {
+    padding: 0.9rem 0.75rem;
+  }
+
+  .psgc-card-header {
+    margin-bottom: 0.85rem;
+    padding-bottom: 0.65rem;
+  }
+
+  .psgc-card-title {
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+
+  .psgc-card-subtitle {
+    font-size: 0.77rem;
+  }
+
+  .psgc-hero-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
+  }
+
+  .psgc-stat-box {
+    padding: 0.75rem 0.8rem;
+    gap: 0.35rem;
+    justify-content: space-between;
+  }
+
+  .psgc-stat-label {
+    font-size: 0.67rem;
+    line-height: 1.3;
+  }
+
+  .psgc-stat-value {
+    font-size: 1.32rem;
+    white-space: nowrap;
+  }
+
+  .psgc-stat-subtext {
+    font-size: 0.71rem;
+    line-height: 1.3;
+  }
+
+  .psgc-matrix-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
+  }
+
+  .psgc-prob-card {
+    padding: 0.8rem;
+    gap: 0.4rem;
+    justify-content: space-between;
+  }
+
+  .psgc-prob-label {
+    font-size: 0.73rem;
+    line-height: 1.3;
+  }
+
+  .psgc-prob-val {
+    font-size: 1.5rem;
+  }
+
+  .psgc-prob-desc {
+    font-size: 0.7rem;
+    line-height: 1.35;
+  }
+
+  .psgc-roadmap-list {
+    gap: 0.6rem;
+  }
+
+  .psgc-roadmap-item {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0.85rem 0.85rem;
+    gap: 0.55rem;
+  }
+
+  .psgc-roadmap-info {
+    min-width: unset;
+    width: 100%;
+    gap: 0.25rem;
+  }
+
+  .psgc-roadmap-target {
+    font-size: 0.86rem;
+    line-height: 1.3;
+  }
+
+  .psgc-roadmap-req {
+    font-size: 0.8rem;
+    color: #e2e8f0;
+    font-weight: 600;
+  }
+
+  .psgc-roadmap-sub {
+    font-size: 0.71rem;
+    color: #94a3b8;
+    line-height: 1.35;
+  }
+
+  .psgc-roadmap-status {
+    padding-top: 0.5rem;
+    border-top: 1px solid #1e232e;
+    display: flex;
+    align-items: center;
+  }
+
+  .psgc-fixtures-stream {
+    gap: 0.8rem;
+  }
+
+  .match-card-row.psgc-fixture-card {
+    padding: 0.9rem 0.85rem;
+    border-bottom: 1px solid #242934;
+  }
+
+  .psgc-fixture-card .match-ko-time {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 6px 8px;
+    padding-bottom: 0.6rem;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid #1e232e;
+    font-size: 11px;
+  }
+
+  .psgc-mw-pill {
+    font-size: 10.5px;
+    padding: 2px 7px;
+  }
+
+  .psgc-date-full {
+    display: none;
+  }
+
+  .psgc-date-short {
+    display: inline;
+  }
+
+  .psgc-ko-date {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+    font-size: 11px;
+    color: #94a3b8;
+  }
+
+  .psgc-fixture-card .match-teams-score-line {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 0.4rem;
+    max-width: 100%;
+  }
+
+  .psgc-fixture-card .team-side {
+    gap: 6px;
+    min-width: 0;
+  }
+
+  .psgc-team-info {
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .psgc-fixture-card .team-side.home .psgc-team-info {
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  .psgc-fixture-card .team-side.away .psgc-team-info {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .psgc-fixture-card .match-team-name {
+    font-size: 11.5px;
+    font-weight: 700;
+    line-height: 1.25;
+    overflow-wrap: break-word;
+    word-break: normal;
+  }
+
+  .psgc-opp-rank {
+    font-size: 0.62rem;
+    padding: 1px 5px;
+  }
+
+  .psgc-fixture-card .match-team-logo {
+    width: 26px;
+    height: 26px;
+  }
+
+  .psgc-fixture-card .match-score-center {
+    min-width: auto;
+    gap: 0;
+  }
+
+  .psgc-fixture-card .match-vs-label {
+    font-size: 9.5px;
+    padding: 3px 6px;
+    letter-spacing: 0.06em;
+  }
+
+  .psgc-fixture-card .match-stadium-name {
+    font-size: 10px;
+    margin-top: 0.6rem;
+    text-align: center;
+    line-height: 1.35;
+    color: #94a3b8;
+  }
+
+  .psgc-match-tactical-footer {
+    margin-top: 0.85rem;
+    padding-top: 0.75rem;
+    padding-left: 0;
+    padding-right: 0;
+    gap: 0.6rem;
+  }
+
+  .psgc-tactical-row {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.35rem;
+  }
+
+  .psgc-tactical-row + .psgc-tactical-row {
+    padding-top: 0.6rem;
+    border-top: 1px solid #1e232e;
+  }
+
+  .psgc-tactical-heading {
+    min-width: unset;
+    font-size: 0.66rem;
+    letter-spacing: 0.06em;
+    color: #94a3b8;
+  }
+
+  .psgc-badges-wrap {
+    gap: 0.35rem;
+  }
+
+  .psgc-badge {
+    font-size: 0.66rem;
+    padding: 3px 8px;
+    letter-spacing: 0.03em;
+    max-width: 100%;
+  }
+
+  .psgc-badge-h2h {
+    min-width: unset;
+  }
+
+  .psgc-h2h-row {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.4rem;
+  }
+
+  .psgc-h2h-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .psgc-h2h-meetings {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .psgc-h2h-meeting-item {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+  }
+
+  .psgc-h2h-meta {
+    min-width: unset;
+  }
+
+  .psgc-h2h-scoreline {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: wrap;
+    font-size: 0.78rem;
+    line-height: 1.4;
+  }
+
+  .psgc-h2h-score {
+    font-size: 0.8rem;
+    padding: 0 2px;
+  }
+
+  .psgc-tactical-notes-text {
+    font-size: 0.78rem;
+    line-height: 1.45;
+    color: #e2e8f0;
+  }
+}
+
+@media (max-width: 375px) {
+  .subnav-pill-btn {
+    padding: 6px 5px;
+    font-size: 10.5px;
+    gap: 4px;
+  }
+
+  .subnav-pill-icon {
+    width: 12px;
+    height: 12px;
+  }
+
+  .psgc-card {
+    padding: 0.85rem 0.65rem;
+  }
+
+  .psgc-stat-value {
+    font-size: 1.22rem;
+  }
+
+  .psgc-prob-val {
+    font-size: 1.4rem;
+  }
+
+  .match-card-row.psgc-fixture-card {
+    padding: 0.85rem 0.7rem;
+  }
+
+  .psgc-mw-pill {
+    font-size: 10px;
+    padding: 2px 6px;
+  }
+
+  .psgc-ko-date {
+    font-size: 10px;
+    gap: 4px;
+  }
+
+  .psgc-fixture-card .match-team-name {
+    font-size: 11px;
+  }
+
+  .psgc-fixture-card .match-team-logo {
+    width: 22px;
+    height: 22px;
+  }
+
+  .psgc-badge {
+    font-size: 0.625rem;
+    padding: 3px 7px;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.25;
+  }
+}

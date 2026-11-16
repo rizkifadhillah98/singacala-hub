@@ -1,0 +1,434 @@
+[
+  {
+    "grup": "Grup A",
+    "totalTim": 10,
+    "klasemen": [
+      {
+        "posisi": 1,
+        "klub": "PSPS PEKANBARU",
+        "logo": "https://assets.ileague.id/uploads/images/logo/96/h/50/2.png",
+        "catatanPenalti": 0,
+        "main": 9,
+        "menang": 7,
+        "seri": 1,
+        "kalah": 1,
+        "gf": 18,
+        "ga": 10,
+        "gd": 8,
+        "poin": 22,
+        "form": [
+          "W",
+          "D",
+          "W",
+          "W",
+          "W"
+        ]
+      },
+      {
+        "posisi": 2,
+        "klub": "PSMS MEDAN",
+        "logo": "https://assets.ileague.id/uploads/images/logo/96/h/50/1.png",
+        "catatanPenalti": 0,
+        "main": 9,
+        "menang": 6,
+        "seri": 2,
+        "kalah": 1,
+        "gf": 24,
+        "ga": 7,
+        "gd": 17,
+        "poin": 20,
+        "form": [
+          "W",
+          "W",
+          "W",
+          "D",
+          "L"
+        ]
+      },
+      {
+        "posisi": 3,
+        "klub": "PERSIKAD",
+        "logo": "https://assets.ileague.id/uploads/images/logo/96/h/50/2208194.png",
+        "catatanPenalti": 0,
+        "main": 9,
+        "menang": 5,
+        "seri": 1,
+        "kalah": 3,
+        "gf": 15,
+        "ga": 13,
+        "gd": 2,
+        "poin": 16,
+        "form": [
+          "W",
+          "D",
+          "L",
+          "L",
+          "W"
+        ]
+      },
+      {
+        "posisi": 4,
+        "klub": "PSIS SEMARANG",
+        "logo": "https://assets.ileague.id/uploads/images/logo/96/h/50/20.png",
+        "catatanPenalti": -1,
+        "main": 9,
+        "menang": 4,
+        "seri": 3,
+        "kalah": 2,
+        "gf": 13,
+        "ga": 8,
+        "gd": 5,
+        "poin": 14,
+        "form": [
+          "W",
+          "D",
+          "L",
+          "D",
+          "L"
+        ]
+      },
+      {
+        "posisi": 5,
+        "klub": "SEMEN PADANG FC",
+        "logo": "https://assets.ileague.id/uploads/images/logo/96/h/50/5.png",
+        "catatanPenalti": -1,
+        "main": 9,
+        "menang": 4,
+        "seri": 3,
+        "kalah": 2,
+        "gf": 10,
+        "ga": 7,
+        "gd": 3,
+        "poin": 14,
+        "form": [
+          "D",
+          "W",
+          "W",
+          "D",
+          "L"
+        ]
+      },
+      {
+        "posisi": 6,
+        "klub": "SUMSEL UNITED",
+        "logo": "https://assets.ileague.id/uploads/images/logo/96/h/50/2409089.png",
+        "catatanPenalti": -1,
+        "main": 9,
+        "menang": 3,
+        "seri": 2,
+        "kalah": 4,
+        "gf": 14,
+        "ga": 15,
+        "gd": -1,
+        "poin": 10,
+        "form": [
+          "L",
+          "L",
+          "D",
+          "W",
+          "W"
+        ]
+      },
+      {
+        "posisi": 7,
+        "klub": "PERSIRAJA BANDA ACEH",
+        "logo": "https://assets.ileague.id/uploads/images/logo/96/h/50/4.png",
+        "catatanPenalti": -1,
+        "main": 9,
+        "menang": 3,
+        "seri": 1,
+        "kalah": 5,
+        "gf": 11,
+        "ga": 15,
+        "gd": -4,
+        "poin": 9,
+        "form": [
+          "L",
+          "W",
+          "W",
+          "D",
+          "W"
+        ]
+      },
+      {
+        "posisi": 8,
+        "klub": "ADHYAKSA FC BEKASI",
+        "logo": "https://assets.ileague.id/uploads/images/logo/96/h/50/1817798767.png",
+        "catatanPenalti": 0,
+        "main": 9,
+        "menang": 1,
+        "seri": 5,
+        "kalah": 3,
+        "gf": 9,
+        "ga": 8,
+        "gd": 1,
+        "poin": 8,
+        "form": [
+          "D",
+          "D",
+          "D",
+          "D",
+          "W"
+        ]
+      },
+      {
+        "posisi": 9,
+        "klub": "PSGC Ciamis",
+        "logo": "https://assets.ileague.id/uploads/images/logo/96/h/50/204.png",
+        "catatanPenalti": 0,
+        "main": 9,
+        "menang": 2,
+        "seri": 1,
+        "kalah": 6,
+        "gf": 8,
+        "ga": 15,
+        "gd": -7,
+        "poin": 7,
+        "form": [
+          "L",
+          "L",
+          "L",
+          "D",
+          "L"
+        ]
+      },
+      {
+        "posisi": 10,
+        "klub": "PERSIKU",
+        "logo": "https://assets.ileague.id/uploads/images/logo/96/h/50/49.png",
+        "catatanPenalti": -2,
+        "main": 9,
+        "menang": 0,
+        "seri": 1,
+        "kalah": 8,
+        "gf": 6,
+        "ga": 30,
+        "gd": -24,
+        "poin": -1,
+        "form": [
+          "L",
+          "L",
+          "L",
+          "L",
+          "L"
+        ]
+      }
+    ]
+  },
+  {
+    "grup": "Grup B",
+    "totalTim": 10,
+    "klasemen": [
+      {
+        "posisi": 1,
+        "klub": "KENDAL TORNADO FC",
+        "logo": "https://assets.ileague.id/uploads/images/logo/96/h/50/2408179.png",
+        "catatanPenalti": -1,
+        "main": 9,
+        "menang": 5,
+        "seri": 4,
+        "kalah": 0,
+        "gf": 20,
+        "ga": 5,
+        "gd": 15,
+        "poin": 18,
+        "form": [
+          "W",
+          "D",
+          "D",
+          "W",
+          "W"
+        ]
+      },
+      {
+        "posisi": 2,
+        "klub": "PS BARITO PUTERA",
+        "logo": "https://assets.ileague.id/uploads/images/logo/96/h/50/133.png",
+        "catatanPenalti": 0,
+        "main": 9,
+        "menang": 5,
+        "seri": 2,
+        "kalah": 2,
+        "gf": 17,
+        "ga": 10,
+        "gd": 7,
+        "poin": 17,
+        "form": [
+          "D",
+          "W",
+          "W",
+          "W",
+          "W"
+        ]
+      },
+      {
+        "posisi": 3,
+        "klub": "RANS Nusantara FC",
+        "logo": "https://assets.ileague.id/uploads/images/logo/96/h/50/217.png",
+        "catatanPenalti": 0,
+        "main": 9,
+        "menang": 4,
+        "seri": 4,
+        "kalah": 1,
+        "gf": 19,
+        "ga": 12,
+        "gd": 7,
+        "poin": 16,
+        "form": [
+          "D",
+          "D",
+          "D",
+          "W",
+          "W"
+        ]
+      },
+      {
+        "posisi": 4,
+        "klub": "PERSELA LAMONGAN",
+        "logo": "https://assets.ileague.id/uploads/images/logo/96/h/50/31.png",
+        "catatanPenalti": -1,
+        "main": 9,
+        "menang": 5,
+        "seri": 2,
+        "kalah": 2,
+        "gf": 17,
+        "ga": 9,
+        "gd": 8,
+        "poin": 16,
+        "form": [
+          "L",
+          "W",
+          "D",
+          "L",
+          "D"
+        ]
+      },
+      {
+        "posisi": 5,
+        "klub": "DELTRAS FC",
+        "logo": "https://assets.ileague.id/uploads/images/logo/96/h/50/35.png",
+        "catatanPenalti": 0,
+        "main": 9,
+        "menang": 4,
+        "seri": 3,
+        "kalah": 2,
+        "gf": 19,
+        "ga": 13,
+        "gd": 6,
+        "poin": 15,
+        "form": [
+          "L",
+          "L",
+          "D",
+          "D",
+          "D"
+        ]
+      },
+      {
+        "posisi": 6,
+        "klub": "PERSIPURA JAYAPURA",
+        "logo": "https://assets.ileague.id/uploads/images/logo/96/h/50/58.png",
+        "catatanPenalti": -1,
+        "main": 9,
+        "menang": 4,
+        "seri": 2,
+        "kalah": 3,
+        "gf": 21,
+        "ga": 14,
+        "gd": 7,
+        "poin": 13,
+        "form": [
+          "W",
+          "L",
+          "W",
+          "W",
+          "L"
+        ]
+      },
+      {
+        "posisi": 7,
+        "klub": "DE RED FC",
+        "logo": "https://assets.ileague.id/uploads/images/logo/96/h/50/2409314.png",
+        "catatanPenalti": 0,
+        "main": 9,
+        "menang": 3,
+        "seri": 3,
+        "kalah": 3,
+        "gf": 13,
+        "ga": 11,
+        "gd": 2,
+        "poin": 12,
+        "form": [
+          "W",
+          "W",
+          "D",
+          "L",
+          "D"
+        ]
+      },
+      {
+        "posisi": 8,
+        "klub": "PERSIS SOLO",
+        "logo": "https://assets.ileague.id/uploads/images/logo/96/h/50/67.png",
+        "catatanPenalti": 0,
+        "main": 9,
+        "menang": 1,
+        "seri": 4,
+        "kalah": 4,
+        "gf": 15,
+        "ga": 14,
+        "gd": 1,
+        "poin": 7,
+        "form": [
+          "L",
+          "L",
+          "D",
+          "D",
+          "D"
+        ]
+      },
+      {
+        "posisi": 9,
+        "klub": "PERSIBA",
+        "logo": "https://assets.ileague.id/uploads/images/logo/96/h/50/41.png",
+        "catatanPenalti": -4,
+        "main": 9,
+        "menang": 2,
+        "seri": 0,
+        "kalah": 7,
+        "gf": 8,
+        "ga": 19,
+        "gd": -11,
+        "poin": 2,
+        "form": [
+          "W",
+          "W",
+          "L",
+          "L",
+          "L"
+        ]
+      },
+      {
+        "posisi": 10,
+        "klub": "PSBS BIAK",
+        "logo": "https://assets.ileague.id/uploads/images/logo/96/h/50/181.png",
+        "catatanPenalti": -4,
+        "main": 9,
+        "menang": 0,
+        "seri": 0,
+        "kalah": 9,
+        "gf": 3,
+        "ga": 45,
+        "gd": -42,
+        "poin": -4,
+        "form": [
+          "L",
+          "L",
+          "L",
+          "L",
+          "L"
+        ]
+      }
+    ]
+  }
+]
