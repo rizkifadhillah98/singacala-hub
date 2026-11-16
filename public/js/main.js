@@ -45,7 +45,7 @@ export async function loadInitialData() {
           if (Array.isArray(raw) && raw.length > 0) {
             state.standingsGroups = raw;
           }
-        } catch (_) {}
+        } catch (_) { }
       }
 
       if (!state.standingsGroups || state.standingsGroups.length === 0) {

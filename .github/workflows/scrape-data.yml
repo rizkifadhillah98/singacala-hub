@@ -1,0 +1,41 @@
+name: Auto-Update Match Data
+
+on:
+  schedule:
+    # Jalan 2x sehari: 16:00 WIB (09:00 UTC) dan 23:00 WIB (16:00 UTC)
+    - cron: '0 9,16 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies (without dev)
+        run: npm ci --omit=dev
+
+      - name: Scrape standings and fixtures
+        run: npm run scrape:all
+
+      - name: Commit & push updated data if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain data/)" ]; then
+            git add data/klasemen.json data/jadwal_dan_hasil.json
+            git commit -m "chore(data): auto-update standings & fixtures"
+            git push
+          else
+            echo "No data changes detected."
+          fi

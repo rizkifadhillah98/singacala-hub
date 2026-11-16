@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
+    "build:static": "node scripts/build-static.js",
     "scrape:standings": "node scrapers/scraper-standings.js",
     "scrape:fixtures": "node scrapers/scraper-fixtures.js",
     "scrape:all": "npm run scrape:standings && npm run scrape:fixtures",
