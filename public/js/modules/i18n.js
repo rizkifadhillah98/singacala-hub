@@ -292,7 +292,7 @@ export const translations = {
     psgc_notes_psms: 'Laga Pamungkas Putaran 2 di Markas PSMS',
 
     // Opening Disclaimer Modal & Footer Trigger
-    disclaimer_badge_unofficial: 'TIDAK RESMI • BUATAN PENGGEMAR',
+    disclaimer_badge_unofficial: 'UNOFFICIAL FAN-MADE',
     disclaimer_badge_notice: 'PEMBERITAHUAN PENTING',
     disclaimer_title: 'Selamat Datang di Singacala Hub',
     disclaimer_subtitle: 'Terima kasih telah berkunjung! Mohon baca informasi singkat berikut sebelum melanjutkan.',

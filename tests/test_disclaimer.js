@@ -26,7 +26,21 @@ async function runDisclaimerTests() {
     assert.strictEqual(await page.locator('#disclaimer-modal-body .disclaimer-item').count(), 0);
     const idSummary = (await page.locator('#disclaimer-summary-text').textContent()).trim();
     assert(idSummary.includes('ileague.id') && idSummary.includes('Simulator Liga'), 'ID summary paragraph should render');
-    console.log('✓ [Test 1] First visit shows locked disclaimer modal with single summary paragraph');
+
+    // Verify UNOFFICIAL FAN-MADE is text-only without box (no background box, no border, bold text)
+    const badgeStyle = await page.locator('#disclaimer-badge-unofficial').evaluate((el) => {
+      const cs = window.getComputedStyle(el);
+      return {
+        borderStyle: cs.borderStyle,
+        paddingLeft: cs.paddingLeft,
+        fontWeight: cs.fontWeight,
+        textTransform: cs.textTransform,
+      };
+    });
+    assert.strictEqual(badgeStyle.borderStyle, 'none', 'Badge must have no border box');
+    assert.strictEqual(badgeStyle.paddingLeft, '0px', 'Badge must have no padding box');
+    assert(Number(badgeStyle.fontWeight) >= 800, 'Badge must have bold title font-weight (>=800)');
+    console.log('✓ [Test 1] First visit shows locked disclaimer modal with text-only UNOFFICIAL FAN-MADE title and summary');
 
     // 2. ESC and backdrop click do not close locked modal
     await page.keyboard.press('Escape');

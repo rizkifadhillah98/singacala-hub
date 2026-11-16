@@ -842,21 +842,32 @@
 }
 
 .disclaimer-pill-tag {
-  font-size: 0.68rem;
+  background: transparent;
+  border: none;
+  padding: 0;
+  border-radius: 0;
+  font-family: var(--font-display, var(--font-main));
+  font-size: 0.78rem;
   font-weight: 800;
-  letter-spacing: 0.05em;
-  padding: 2px 8px;
-  border-radius: 4px;
-  background: #1e222b;
+  letter-spacing: 0.08em;
   color: #ffffff;
-  border: 1px solid #323948;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.disclaimer-tag-dot {
+  color: #64748b;
+  font-size: 0.75rem;
+  line-height: 1;
+  user-select: none;
 }
 
 .disclaimer-subtag {
   font-size: 0.72rem;
   color: #94a3b8;
   font-weight: 600;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .disclaimer-modal-title {
