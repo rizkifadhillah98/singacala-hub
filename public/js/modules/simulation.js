@@ -1310,7 +1310,7 @@ export function renderSimulationView() {
             ` : ''}
           </div>
 
-          <div class="standings-table-container sim-table-container">
+          <div class="standings-table-container sim-table-container" id="sim-standings-table-container">
             <table class="standings-table sim-table" id="sim-standings-table">
               <thead>
                 <tr>
@@ -1533,11 +1533,44 @@ export function renderSimFloatingSummaryBar() {
 
   const scrollBtn = floatBar.querySelector('#btn-sim-float-scroll');
   if (scrollBtn) {
-    scrollBtn.addEventListener('click', () => {
-      const targetTable = document.getElementById('sim-standings-table-container');
-      if (targetTable) {
-        targetTable.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    scrollBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      // 1. If currently on fixtures tab on mobile, switch to standings tab
+      const simContainer = document.getElementById('simulation-app-container') || document.getElementById('view-simulation');
+      if (simContainer) {
+        simState.activeMobileTab = 'standings';
+        const grid = simContainer.querySelector('.sim-main-grid');
+        if (grid) {
+          grid.classList.add('mobile-show-standings');
+          grid.classList.remove('mobile-show-fixtures');
+        }
+        simContainer.querySelectorAll('[data-mobile-tab]').forEach((b) => {
+          b.classList.toggle('active', b.getAttribute('data-mobile-tab') === 'standings');
+        });
       }
+
+      // 2. Scroll smoothly to show the mobile toggle pills and the table card header
+      const targetElement =
+        document.querySelector('.sim-mobile-view-toggle') ||
+        document.querySelector('.sim-card-standings') ||
+        document.getElementById('sim-standings-table-container');
+
+      if (targetElement) {
+        const yOffset = -12; // Breathing room from viewport top
+        const y = targetElement.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+      }
+    });
+  }
+
+  // Also make clicking the summary info trigger the table view
+  const floatLeft = floatBar.querySelector('.sim-float-left');
+  if (floatLeft) {
+    floatLeft.style.cursor = 'pointer';
+    floatLeft.addEventListener('click', () => {
+      scrollBtn?.click();
     });
   }
 }

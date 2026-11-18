@@ -143,6 +143,35 @@ async function runMobileInteractiveTests() {
     const floatStatLine = await page.$eval('#sim-floating-summary .sim-float-stat-line', (el) => el.textContent.trim());
     console.log(`✓ Floating Summary Bar verified: Team: "${floatTeamName}", Stat: "${floatStatLine}"`);
 
+    // Verify "Lihat Tabel" button click scrolls smoothly to simulated standings table
+    const scrollYBefore = await page.evaluate(() => window.scrollY);
+    console.log(`✓ ScrollY before clicking Lihat Tabel: ${scrollYBefore}`);
+
+    await page.click('#btn-sim-float-scroll');
+    await page.waitForTimeout(600);
+
+    const scrollYAfter = await page.evaluate(() => window.scrollY);
+    console.log(`✓ ScrollY after clicking Lihat Tabel: ${scrollYAfter}`);
+    assert(scrollYAfter > scrollYBefore, `Clicking "Lihat Tabel" must scroll down to table, before: ${scrollYBefore}, after: ${scrollYAfter}`);
+
+    // Test clicking Lihat Tabel while on the "Fixtures & Score Input" mobile tab
+    const fixturesTabBtn = await page.$('.sim-mobile-toggle-btn[data-mobile-tab="fixtures"]');
+    if (fixturesTabBtn) {
+      await fixturesTabBtn.click();
+      await page.waitForTimeout(300);
+
+      const isFixturesActive = await page.$eval('.sim-main-grid', (el) => el.classList.contains('mobile-show-fixtures'));
+      assert.strictEqual(isFixturesActive, true, 'Grid should show fixtures after clicking fixtures tab');
+
+      // Click "Lihat Tabel" button from floating bar
+      await page.click('#btn-sim-float-scroll');
+      await page.waitForTimeout(500);
+
+      const isStandingsActiveAfter = await page.$eval('.sim-main-grid', (el) => el.classList.contains('mobile-show-standings'));
+      assert.strictEqual(isStandingsActiveAfter, true, 'Clicking "Lihat Tabel" must switch mobile view to standings table');
+      console.log('✓ "Lihat Tabel" correctly auto-switched mobile tab to standings and scrolled');
+    }
+
     await page.screenshot({ path: path.join(screenshotsDir, 'mobile_simulation_floating_bar.png') });
     console.log('✓ Captured mobile_simulation_floating_bar.png');
 
