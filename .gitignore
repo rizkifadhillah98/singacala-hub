@@ -6,7 +6,7 @@ dist/
 build/
 .cache/
 
-# Remotion Video Project, Outputs & Cache
+# Remotion Video Project, Outputs, Scripts & Test Artifacts
 video/
 out/
 .remotion/
@@ -15,6 +15,10 @@ bundle/
 *.webm
 *.mkv
 *.mov
+TEST_READY.md
+scripts/capture-video-screenshots.js
+scripts/generate-sfx.js
+tests/test_video_e2e.js
 
 # Environment variables & Local secrets
 .env
@@ -38,6 +42,7 @@ test-results/
 playwright-report/
 blob-report/
 playwright/.cache/
+tests/screenshots/
 coverage/
 .nyc_output/
 

@@ -530,3 +530,277 @@
     font-size: 20px;
   }
 }
+
+/* ==========================================================================
+   SWIPEABLE MATCHWEEK CAROUSEL (PEKAN 1-27)
+   ========================================================================== */
+
+.matchweek-carousel-container {
+  width: 100%;
+  margin: 0.5rem 0 1.25rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+.matchweek-carousel-container::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.matchweek-carousel-track {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 2px;
+  scroll-snap-type: x mandatory;
+}
+
+.matchweek-carousel-chip {
+  flex: 0 0 auto;
+  padding: 6px 14px;
+  border-radius: var(--radius-full, 9999px);
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--font-main);
+  background: var(--bg-surface-elevated, #161a22);
+  border: 1px solid var(--border-medium, #242934);
+  color: var(--text-muted, #94a3b8);
+  cursor: pointer;
+  scroll-snap-align: center;
+  white-space: nowrap;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.matchweek-carousel-chip:hover {
+  color: var(--text-white, #ffffff);
+  border-color: var(--border-strong, #3b4455);
+}
+
+.matchweek-carousel-chip.active {
+  background: #ffffff;
+  color: #0b0c0e;
+  border-color: #ffffff;
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   MATCH DETAIL BOTTOM SHEET INTERIOR STYLES
+   ========================================================================== */
+
+.match-detail-scoreboard {
+  background: var(--bg-surface-elevated, #11141a);
+  border: 1px solid var(--border-medium, #242934);
+  border-radius: 8px;
+  padding: 1.25rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.match-detail-team {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+}
+
+.match-detail-team-logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
+}
+
+.match-detail-team-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-white, #ffffff);
+  line-height: 1.25;
+}
+
+.match-detail-score-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 80px;
+}
+
+.match-detail-score-digits {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display, 'Plus Jakarta Sans', sans-serif);
+  font-size: 28px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.match-detail-score-divider {
+  color: var(--text-muted, #94a3b8);
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.match-detail-vs-badge {
+  font-family: var(--font-display, 'Plus Jakarta Sans', sans-serif);
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text-muted, #94a3b8);
+  padding: 4px 12px;
+  background: var(--bg-surface, #0d0f14);
+  border: 1px solid var(--border-subtle, #1a1e26);
+  border-radius: 6px;
+}
+
+.match-detail-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.match-detail-info-card {
+  background: var(--bg-surface-elevated, #11141a);
+  border: 1px solid var(--border-medium, #242934);
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.match-detail-info-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted, #94a3b8);
+}
+
+.match-detail-info-val {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-primary, #f1f5f9);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.match-detail-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.match-detail-section-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted, #94a3b8);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.match-detail-card-panel {
+  background: var(--bg-surface-elevated, #11141a);
+  border: 1px solid var(--border-medium, #242934);
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+/* Form 5 Matches Row */
+.match-detail-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.match-detail-form-col {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.match-detail-form-team-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--text-primary, #f1f5f9);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.match-detail-form-badges {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.form-pill-mini {
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10.5px;
+  font-weight: 800;
+  font-family: var(--font-display, 'Plus Jakarta Sans', sans-serif);
+}
+
+.form-pill-mini.w {
+  background: rgba(16, 185, 129, 0.14);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.28);
+}
+
+.form-pill-mini.d {
+  background: rgba(245, 158, 11, 0.14);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.28);
+}
+
+.form-pill-mini.l {
+  background: rgba(239, 68, 68, 0.14);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.28);
+}
+
+/* Head to Head Table / Rows */
+.h2h-item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  background: var(--bg-surface, #0d0f14);
+  border: 1px solid var(--border-subtle, #1a1e26);
+  border-radius: 6px;
+  margin-bottom: 6px;
+  font-size: 12px;
+}
+
+.h2h-item-row:last-child {
+  margin-bottom: 0;
+}
+
+.h2h-date {
+  color: var(--text-dim, #64748b);
+  font-size: 11px;
+}
+
+.h2h-score-badge {
+  font-weight: 700;
+  font-family: var(--font-display, 'Plus Jakarta Sans', sans-serif);
+  color: #ffffff;
+  padding: 2px 8px;
+  background: #1e2430;
+  border: 1px solid #2e3646;
+  border-radius: 4px;
+}

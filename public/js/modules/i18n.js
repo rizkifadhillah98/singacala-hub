@@ -107,6 +107,35 @@ export const translations = {
     status_vs: 'VS',
     schedule_tbd: 'Jadwal Menyusul',
 
+    // Match Detail Bottom Sheet
+    match_detail_title: 'Detail Pertandingan',
+    match_detail_status_ft: 'SELESAI (FT)',
+    match_detail_status_upcoming: 'MENDATANG',
+    match_detail_stadium: 'Stadion',
+    match_detail_kickoff: 'Waktu Kick-off',
+    match_detail_broadcast: 'Siaran Langsung',
+    match_detail_standings_pos: 'Peringkat Klasemen',
+    match_detail_points: 'Poin',
+    match_detail_form: 'Performa 5 Laga Terakhir',
+    match_detail_h2h: 'Pertemuan Head-to-Head',
+    match_detail_no_h2h: 'Belum ada pertemuan sebelumnya di musim ini.',
+    match_detail_close: 'Tutup Detail',
+    match_detail_view_ileague: 'Buka di ileague.id',
+
+    // Matchweek Carousel
+    carousel_all: 'Semua',
+    carousel_week: 'Pekan {week}',
+
+    // Simulator Mobile Floating Summary Bar
+    sim_float_title: 'Proyeksi PSGC',
+    sim_float_rank: 'Posisi #{rank}',
+    sim_float_points: '{pts} Poin',
+    sim_float_btn_table: 'Lihat Tabel',
+    sim_float_promo: 'Zona Promosi',
+    sim_float_playoff: 'Play-off Promosi',
+    sim_float_safe: 'Aman Degradasi',
+    sim_float_danger: 'Zona Degradasi',
+
     // Stats View
     stats_title: 'Statistik Tim',
     stats_subtitle: 'Statistik performa klub Grup A Musim 2026/27',
@@ -385,6 +414,35 @@ export const translations = {
     status_ft: 'Full Time',
     status_vs: 'VS',
     schedule_tbd: 'TBD',
+
+    // Match Detail Bottom Sheet
+    match_detail_title: 'Match Details',
+    match_detail_status_ft: 'FULL TIME (FT)',
+    match_detail_status_upcoming: 'UPCOMING',
+    match_detail_stadium: 'Stadium',
+    match_detail_kickoff: 'Kick-off Time',
+    match_detail_broadcast: 'Live Broadcast',
+    match_detail_standings_pos: 'Standings Rank',
+    match_detail_points: 'Points',
+    match_detail_form: 'Recent Form (Last 5)',
+    match_detail_h2h: 'Head-to-Head Record',
+    match_detail_no_h2h: 'No previous meetings recorded this season.',
+    match_detail_close: 'Close Details',
+    match_detail_view_ileague: 'View on ileague.id',
+
+    // Matchweek Carousel
+    carousel_all: 'All',
+    carousel_week: 'MW {week}',
+
+    // Simulator Mobile Floating Summary Bar
+    sim_float_title: 'PSGC Projection',
+    sim_float_rank: 'Rank #{rank}',
+    sim_float_points: '{pts} Pts',
+    sim_float_btn_table: 'View Table',
+    sim_float_promo: 'Promotion Zone',
+    sim_float_playoff: 'Promotion Play-off',
+    sim_float_safe: 'Relegation Safe',
+    sim_float_danger: 'Relegation Zone',
 
     // Stats View
     stats_title: 'Team Statistics',

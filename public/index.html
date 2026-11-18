@@ -315,6 +315,13 @@
         </div>
       </div>
 
+      <!-- Swipeable Matchweek Carousel (Pekan 1–27) -->
+      <div class="matchweek-carousel-container" id="matchweek-carousel-container" aria-label="Navigasi Carousel Pekan Laga">
+        <div class="matchweek-carousel-track" id="matchweek-carousel-track" role="tablist">
+          <!-- Populated dynamically via fixtures.js -->
+        </div>
+      </div>
+
       <!-- Date Range Navigator Row with Sort Pill -->
       <div class="fixtures-date-navigator-row">
         <!-- Date Navigator (< Sat, 24 Oct ~ Sat, 31 Oct >) -->
@@ -457,7 +464,12 @@
     <section id="view-simulation" class="view-section">
       <!-- Populated dynamically via simulation.js -->
       <div style="text-align: center; padding: 4rem 1rem; color: var(--text-dim);">
-        <div style="font-size: 2rem; margin-bottom: 1rem;">⚙️</div>
+        <div style="margin-bottom: 1rem; display: flex; justify-content: center;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 32px; height: 32px; opacity: 0.6;">
+            <circle cx="12" cy="12" r="3" />
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+          </svg>
+        </div>
         <p>Memuat Simulator Singacala Hub...</p>
       </div>
     </section>
@@ -564,6 +576,7 @@
   <!-- ========================================== -->
   <div class="modal-backdrop" id="search-modal-backdrop">
     <div class="search-modal-box">
+      <div class="bottom-sheet-drag-handle" aria-hidden="true"></div>
       <div class="search-input-wrapper">
         <svg class="search-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="11" cy="11" r="8" />
@@ -584,6 +597,7 @@
   <!-- ========================================== -->
   <div class="modal-backdrop" id="broadcast-modal-backdrop">
     <div class="info-modal-box">
+      <div class="bottom-sheet-drag-handle" aria-hidden="true"></div>
       <div class="info-modal-header">
         <h3 class="info-modal-title">Where to Watch</h3>
         <button class="info-modal-close" id="btn-close-broadcast">✕</button>
@@ -599,6 +613,7 @@
   <!-- ================================================== -->
   <div class="r3-modal-backdrop" id="r3-regulatory-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="r3-modal-title">
     <div class="r3-modal-box">
+      <div class="bottom-sheet-drag-handle" aria-hidden="true"></div>
       <!-- Modal Header -->
       <div class="r3-modal-header">
         <div class="r3-modal-header-text">
@@ -645,9 +660,35 @@
     </div>
   </div>
 
+  <!-- ================================================== -->
+  <!-- MODAL / BOTTOM SHEET: MATCH DETAIL                -->
+  <!-- ================================================== -->
+  <div class="match-detail-backdrop" id="match-detail-backdrop" role="dialog" aria-modal="true"
+    aria-labelledby="match-detail-week-pill">
+    <div class="match-detail-box" id="match-detail-box">
+      <div class="bottom-sheet-drag-handle" aria-hidden="true"></div>
+      <div class="match-detail-header">
+        <div class="match-detail-badge-row">
+          <span class="match-detail-status-pill" id="match-detail-status-pill">FT</span>
+          <span class="match-detail-week-pill" id="match-detail-week-pill">Pekan 1</span>
+        </div>
+        <button type="button" class="match-detail-close-btn" id="btn-close-match-detail" aria-label="Tutup Detail Laga">✕</button>
+      </div>
+      <div class="match-detail-body" id="match-detail-body">
+        <!-- Rendered dynamically via fixtures.js -->
+      </div>
+    </div>
+  </div>
+
   <!-- Live Toast Notification -->
   <div id="toast" class="toast-notification">
-    <div class="toast-icon" id="toast-icon">ℹ️</div>
+    <div class="toast-icon" id="toast-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;">
+        <circle cx="12" cy="12" r="10" />
+        <line x1="12" y1="16" x2="12" y2="12" />
+        <line x1="12" y1="8" x2="12.01" y2="8" />
+      </svg>
+    </div>
     <div class="toast-body">
       <strong id="toast-title">Pemberitahuan</strong>
       <p id="toast-message">Proses sedang berjalan...</p>
@@ -703,6 +744,7 @@
   <div class="disclaimer-modal-backdrop" id="disclaimer-modal-backdrop" role="dialog" aria-modal="true"
     aria-labelledby="disclaimer-modal-title" aria-describedby="disclaimer-modal-subtitle">
     <div class="disclaimer-modal-box">
+      <div class="bottom-sheet-drag-handle" aria-hidden="true"></div>
       <div class="disclaimer-modal-header">
         <div class="disclaimer-modal-header-text">
           <div class="disclaimer-tag-row">

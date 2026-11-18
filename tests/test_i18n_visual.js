@@ -151,6 +151,13 @@ async function runTests() {
   console.log(`✓ Selected matchweek: "${selectedPeriodText}"`);
   if (!selectedPeriodText.includes('Matchweek')) throw new Error(`Expected 'Matchweek X', got '${selectedPeriodText}'`);
 
+  // Switch to Matchweek 9 to test finished match FT badge
+  const chip9 = await page.$('.matchweek-carousel-chip[data-week="9"]');
+  if (chip9) {
+    await chip9.click();
+    await page.waitForTimeout(300);
+  }
+
   const ftBadgeText = await page.$eval('.match-status-label', el => el.textContent.trim());
   console.log(`✓ Fixtures FT badge text (EN): "${ftBadgeText}"`);
   if (ftBadgeText !== 'FT') throw new Error(`Expected 'FT', got '${ftBadgeText}'`);

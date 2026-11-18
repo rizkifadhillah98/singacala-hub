@@ -23,12 +23,18 @@ import {
   syncMatchweekDropdownText,
   populateMatchweeksFilterMenu,
   populateClubsFilterMenu,
+  renderMatchweekCarousel,
+  setupMatchDetailEvents,
+  closeMatchDetail,
 } from './fixtures.js';
 import {
   renderStatsOverview,
   closeStatDetail,
   renderStatsDetailView,
 } from './stats.js';
+import {
+  renderSimFloatingSummaryBar,
+} from './simulation.js';
 
 // ==========================================================================
 // DUMMY WEEKLY UPDATE TESTING (IN-MEMORY ONLY, NEVER WRITES TO SERVER FILES)
@@ -375,7 +381,7 @@ export function setupSearch() {
     modal.classList.add('show');
     input.value = '';
     input.focus();
-    results.innerHTML = `<div class="search-empty-prompt">Ketik nama klub atau stadion...</div>`;
+    results.innerHTML = `<div class="search-empty-prompt">${t('search_prompt')}</div>`;
   };
 
   const closeSearch = () => {
@@ -388,6 +394,11 @@ export function setupSearch() {
   modal.addEventListener('click', (e) => {
     if (e.target === modal) closeSearch();
   });
+
+  const searchBox = modal.querySelector('.search-modal-box');
+  if (searchBox) {
+    setupBottomSheetGestures(searchBox, modal, closeSearch);
+  }
 
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && modal.classList.contains('show')) {
@@ -403,7 +414,7 @@ export function setupSearch() {
   input.addEventListener('input', (e) => {
     const q = e.target.value.toLowerCase().trim();
     if (!q) {
-      results.innerHTML = `<div class="search-empty-prompt">Ketik nama klub atau stadion...</div>`;
+      results.innerHTML = `<div class="search-empty-prompt">${t('search_prompt')}</div>`;
       return;
     }
 
@@ -496,10 +507,30 @@ export function switchView(viewName, shouldScroll = true) {
   // Refresh view-specific renders if needed
   if (viewName === 'stats' && state.statsViewMode === 'overview') {
     renderStatsOverview();
+  } else if (viewName === 'fixtures') {
+    renderMatchweekCarousel();
+  } else if (viewName === 'simulation') {
+    renderSimFloatingSummaryBar();
+  }
+
+  // Show / hide simulator floating summary bar (mobile <= 768px only)
+  const simFloatBar = document.getElementById('sim-floating-summary');
+  if (simFloatBar) {
+    const isMobile = window.innerWidth <= 768;
+    simFloatBar.style.display = (isMobile && viewName === 'simulation') ? 'flex' : 'none';
   }
 }
 
 export function setupNavigation() {
+  // Handle viewport resize for mobile-only floating bars
+  window.addEventListener('resize', () => {
+    const simFloatBar = document.getElementById('sim-floating-summary');
+    if (simFloatBar) {
+      const isMobile = window.innerWidth <= 768;
+      simFloatBar.style.display = (isMobile && state.currentView === 'simulation') ? 'flex' : 'none';
+    }
+  });
+
   // Brand Logo to Home/Standings
   const brandHomeLink = document.getElementById('brand-home-link');
   if (brandHomeLink) {
@@ -726,6 +757,185 @@ export function setupNavigation() {
       toastEl.classList.remove('show');
     });
   }
+
+  // Mobile Gesture Navigation
+  setupSmartEdgeSwipeNavigation();
+  setupStandingsSubnavSwipe();
+}
+
+// ==========================================================================
+// MOBILE INTERACTIVE GESTURES (BOTTOM SHEET & EDGE-SWIPE NAVIGATION)
+// ==========================================================================
+
+export function setupBottomSheetGestures(sheetBoxEl, backdropEl, onClose) {
+  if (!sheetBoxEl || !backdropEl) return;
+
+  let startY = 0;
+  let currentY = 0;
+  let isDragging = false;
+  let startTimestamp = 0;
+
+  const onTouchStart = (e) => {
+    if (window.innerWidth > 768) return;
+    if (e.touches.length !== 1) return;
+
+    const touch = e.touches[0];
+    const target = touch.target;
+    const scrollContainer = sheetBoxEl.querySelector('.match-detail-body, .disclaimer-modal-body, .r3-modal-body, .search-results-list, .info-modal-body');
+
+    // Only allow swipe down if content is scrolled near top or touching header/handle
+    const isAtTop = !scrollContainer || scrollContainer.scrollTop <= 2;
+    const isHeaderOrHandle = !!target.closest('.bottom-sheet-drag-handle, .match-detail-header, .disclaimer-modal-header, .r3-modal-header, .info-modal-header');
+
+    if (!isAtTop && !isHeaderOrHandle) return;
+
+    startY = touch.clientY;
+    currentY = startY;
+    startTimestamp = Date.now();
+    isDragging = true;
+    sheetBoxEl.style.transition = 'none';
+  };
+
+  const onTouchMove = (e) => {
+    if (!isDragging) return;
+    const touch = e.touches[0];
+    const deltaY = touch.clientY - startY;
+
+    if (deltaY > 0) {
+      currentY = touch.clientY;
+      sheetBoxEl.style.transform = `translateY(${deltaY}px)`;
+      const progress = Math.min(deltaY / 280, 0.75);
+      backdropEl.style.opacity = `${1 - progress}`;
+      if (e.cancelable) e.preventDefault();
+    }
+  };
+
+  const onTouchEnd = () => {
+    if (!isDragging) return;
+    isDragging = false;
+    const deltaY = currentY - startY;
+    const duration = Date.now() - startTimestamp;
+    const velocity = deltaY / (duration || 1);
+
+    sheetBoxEl.style.transition = 'transform 0.22s cubic-bezier(0.16, 1, 0.3, 1)';
+    backdropEl.style.transition = 'opacity 0.22s ease';
+
+    if (deltaY > 75 || velocity > 0.45) {
+      sheetBoxEl.style.transform = 'translateY(100%)';
+      backdropEl.style.opacity = '0';
+      setTimeout(() => {
+        sheetBoxEl.style.transform = '';
+        sheetBoxEl.style.transition = '';
+        backdropEl.style.opacity = '';
+        backdropEl.style.transition = '';
+        if (typeof onClose === 'function') {
+          onClose();
+        }
+      }, 200);
+    } else {
+      sheetBoxEl.style.transform = 'translateY(0)';
+      backdropEl.style.opacity = '1';
+      setTimeout(() => {
+        sheetBoxEl.style.transform = '';
+        sheetBoxEl.style.transition = '';
+        backdropEl.style.opacity = '';
+        backdropEl.style.transition = '';
+      }, 220);
+    }
+  };
+
+  sheetBoxEl.addEventListener('touchstart', onTouchStart, { passive: true });
+  sheetBoxEl.addEventListener('touchmove', onTouchMove, { passive: false });
+  sheetBoxEl.addEventListener('touchend', onTouchEnd, { passive: true });
+  sheetBoxEl.addEventListener('touchcancel', onTouchEnd, { passive: true });
+}
+
+export function setupSmartEdgeSwipeNavigation() {
+  const views = ['standings', 'fixtures', 'stats', 'simulation'];
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let isEdgeSwipe = false;
+
+  window.addEventListener('touchstart', (e) => {
+    if (window.innerWidth > 768) return;
+    if (e.touches.length !== 1) return;
+
+    const touch = e.touches[0];
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
+
+    const isLeftEdge = touchStartX <= 35;
+    const isRightEdge = touchStartX >= (window.innerWidth - 35);
+
+    // Prevent edge-swipe when touching inside horizontal scroll tables or charts or open modals
+    const target = touch.target;
+    const isInsideScrollable = target.closest('.standings-table-wrapper, .fixtures-matches-stream, .chart-canvas-wrap, .matchweek-carousel-container, .modal-backdrop, .r3-modal-backdrop, .disclaimer-modal-backdrop, .match-detail-backdrop');
+
+    if ((isLeftEdge || isRightEdge) && !isInsideScrollable) {
+      isEdgeSwipe = true;
+    } else {
+      isEdgeSwipe = false;
+    }
+  }, { passive: true });
+
+  window.addEventListener('touchend', (e) => {
+    if (!isEdgeSwipe) return;
+    isEdgeSwipe = false;
+
+    if (e.changedTouches.length !== 1) return;
+    const touch = e.changedTouches[0];
+    const deltaX = touch.clientX - touchStartX;
+    const deltaY = touch.clientY - touchStartY;
+
+    if (Math.abs(deltaX) > 50 && Math.abs(deltaY) < 45) {
+      const currentIdx = views.indexOf(state.currentView || 'standings');
+      if (currentIdx !== -1) {
+        if (deltaX < 0 && currentIdx < views.length - 1) {
+          // Swipe Left -> Next view
+          navigateTo(views[currentIdx + 1]);
+        } else if (deltaX > 0 && currentIdx > 0) {
+          // Swipe Right -> Prev view
+          navigateTo(views[currentIdx - 1]);
+        }
+      }
+    }
+  }, { passive: true });
+}
+
+export function setupStandingsSubnavSwipe() {
+  const subnavBar = document.querySelector('.standings-subnav-bar');
+  const subviews = ['table', 'progression', 'psgc'];
+  if (!subnavBar) return;
+
+  let startX = 0;
+  let startY = 0;
+
+  subnavBar.addEventListener('touchstart', (e) => {
+    if (e.touches.length !== 1) return;
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  }, { passive: true });
+
+  subnavBar.addEventListener('touchend', (e) => {
+    if (e.changedTouches.length !== 1) return;
+    const deltaX = e.changedTouches[0].clientX - startX;
+    const deltaY = e.changedTouches[0].clientY - startY;
+
+    if (Math.abs(deltaX) > 40 && Math.abs(deltaY) < 30) {
+      const activeBtn = subnavBar.querySelector('.subnav-pill-btn.active');
+      const currentSub = activeBtn ? activeBtn.getAttribute('data-subview') : 'table';
+      const curIdx = subviews.indexOf(currentSub);
+      if (curIdx !== -1) {
+        if (deltaX < 0 && curIdx < subviews.length - 1) {
+          const nextBtn = subnavBar.querySelector(`[data-subview="${subviews[curIdx + 1]}"]`);
+          if (nextBtn) nextBtn.click();
+        } else if (deltaX > 0 && curIdx > 0) {
+          const prevBtn = subnavBar.querySelector(`[data-subview="${subviews[curIdx - 1]}"]`);
+          if (prevBtn) prevBtn.click();
+        }
+      }
+    }
+  }, { passive: true });
 }
 
 // ==========================================================================
@@ -928,20 +1138,41 @@ export function setupDrawer() {
   syncDummyUI();
 }
 
-// Close Broadcast Modal
+// Close Broadcast Modal & Match Detail Modal
 export function setupModals() {
   const broadcastBackdrop = document.getElementById('broadcast-modal-backdrop');
   const closeBroadcastBtn = document.getElementById('btn-close-broadcast');
 
   if (closeBroadcastBtn && broadcastBackdrop) {
-    closeBroadcastBtn.addEventListener('click', () => {
-      broadcastBackdrop.classList.remove('show');
-    });
+    const closeBroadcast = () => broadcastBackdrop.classList.remove('show');
+    closeBroadcastBtn.addEventListener('click', closeBroadcast);
 
     broadcastBackdrop.addEventListener('click', (e) => {
-      if (e.target === broadcastBackdrop) {
-        broadcastBackdrop.classList.remove('show');
-      }
+      if (e.target === broadcastBackdrop) closeBroadcast();
+    });
+
+    const broadcastBox = broadcastBackdrop.querySelector('.info-modal-box');
+    if (broadcastBox) {
+      setupBottomSheetGestures(broadcastBox, broadcastBackdrop, closeBroadcast);
+    }
+  }
+
+  // Match Detail Modal / Bottom Sheet
+  setupMatchDetailEvents();
+  const matchDetailBox = document.getElementById('match-detail-box');
+  const matchDetailBackdrop = document.getElementById('match-detail-backdrop');
+  if (matchDetailBox && matchDetailBackdrop) {
+    setupBottomSheetGestures(matchDetailBox, matchDetailBackdrop, closeMatchDetail);
+  }
+
+  // Putaran 3 Regulatory Modal / Bottom Sheet
+  const r3ModalBox = document.querySelector('.r3-modal-box');
+  const r3Backdrop = document.getElementById('r3-regulatory-modal-backdrop');
+  if (r3ModalBox && r3Backdrop) {
+    setupBottomSheetGestures(r3ModalBox, r3Backdrop, () => {
+      r3Backdrop.classList.remove('show');
+      r3Backdrop.style.display = 'none';
+      document.body.style.overflow = '';
     });
   }
 }
@@ -1007,6 +1238,11 @@ export function setupDisclaimerModal() {
 
   if (closeBtn) {
     closeBtn.addEventListener('click', () => closeModal(false));
+  }
+
+  const disclaimerBox = backdrop.querySelector('.disclaimer-modal-box');
+  if (disclaimerBox) {
+    setupBottomSheetGestures(disclaimerBox, backdrop, () => closeModal(false));
   }
 
   backdrop.addEventListener('click', (e) => {

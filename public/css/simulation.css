@@ -1253,9 +1253,131 @@
   }
 }
 
+/* ==========================================================================
+   SIMULATOR FLOATING SUMMARY BAR (MOBILE ONLY - STRICTLY HIDDEN ON DESKTOP)
+   ========================================================================== */
+.sim-floating-summary {
+  display: none !important;
+}
+
+.sim-float-team-emblem {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+}
+
 @media (max-width: 768px) {
   .sim-view {
-    padding-bottom: calc(75px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(120px + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* SIMULATOR FLOATING STICKY SUMMARY BAR (MOBILE ONLY) */
+  .sim-floating-summary {
+    display: flex !important;
+    position: fixed;
+    bottom: calc(65px + env(safe-area-inset-bottom, 0px));
+    left: 12px;
+    right: 12px;
+    z-index: 950;
+    background: rgba(17, 20, 26, 0.96);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--border-strong, #3b4455);
+    border-radius: 10px;
+    padding: 9px 12px;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.65);
+    animation: simFloatIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .sim-float-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .sim-float-team-emblem {
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+  }
+
+  .sim-float-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sim-float-team-name {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted, #94a3b8);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .sim-float-stat-line {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 800;
+    color: #ffffff;
+    font-family: var(--font-display, 'Plus Jakarta Sans', sans-serif);
+  }
+
+  .sim-float-rank-badge {
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .sim-float-rank-badge.promo {
+    background: rgba(16, 185, 129, 0.16);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+  }
+
+  .sim-float-rank-badge.safe {
+    background: rgba(245, 158, 11, 0.16);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+  }
+
+  .sim-float-rank-badge.danger {
+    background: rgba(239, 68, 68, 0.16);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+  }
+
+  .sim-float-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .sim-float-btn {
+    padding: 6px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 6px;
+    background: var(--bg-surface-elevated, #161a22);
+    border: 1px solid var(--border-medium, #242934);
+    color: var(--text-primary, #f1f5f9);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+  }
+
+  .sim-float-btn:active {
+    transform: scale(0.95);
+  }
+
+  .sim-float-btn.primary {
+    background: #ffffff;
+    color: #0b0c0e;
+    border-color: #ffffff;
   }
 
   .sim-header-wrapper {

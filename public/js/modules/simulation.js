@@ -1324,7 +1324,7 @@ export function renderSimulationView() {
                   <th class="col-stat">${isEn ? 'GF' : 'GM'}</th>
                   <th class="col-stat">${isEn ? 'GA' : 'GK'}</th>
                   <th class="col-stat">${isEn ? 'GD' : 'SG'}</th>
-                  <th class="col-form">Form</th>
+                  <th class="col-form">${t('th_form', {}, lang)}</th>
                 </tr>
               </thead>
               <tbody id="sim-table-body">
@@ -1442,6 +1442,7 @@ export function renderSimulationView() {
   `;
 
   attachSimulationEvents(container);
+  renderSimFloatingSummaryBar();
 }
 
 /**
@@ -1452,6 +1453,7 @@ export function renderStandingsOnly() {
   if (!tbody) return;
   const { standings } = calculateSimStandings(simState.activeGroup, 27);
   tbody.innerHTML = renderStandingsRowsHtml(standings);
+  renderSimFloatingSummaryBar();
 }
 
 /**
@@ -1462,6 +1464,82 @@ export function renderPayoffCardOnly() {
   if (!wrapper) return;
   const { standings, isSeasonComplete } = calculateSimStandings(simState.activeGroup, 27);
   wrapper.innerHTML = renderPayoffCardHtml(standings, isSeasonComplete);
+  renderSimFloatingSummaryBar();
+}
+
+/**
+ * Render floating summary bar for mobile in simulator
+ */
+export function renderSimFloatingSummaryBar() {
+  const simView = document.getElementById('view-simulation');
+  if (!simView) return;
+
+  let floatBar = document.getElementById('sim-floating-summary');
+  if (!floatBar) {
+    floatBar = document.createElement('div');
+    floatBar.id = 'sim-floating-summary';
+    floatBar.className = 'sim-floating-summary';
+    document.body.appendChild(floatBar);
+  }
+
+  // Only display when inside simulation view on mobile (<= 768px)
+  const isMobile = window.innerWidth <= 768;
+  if (!isMobile || state.currentView !== 'simulation') {
+    floatBar.style.display = 'none';
+    return;
+  }
+  floatBar.style.display = 'flex';
+
+  const { standings } = calculateSimStandings(simState.activeGroup, 27);
+  if (!standings || standings.length === 0) return;
+
+  const targetTeam = standings.find((t) => t.klub && t.klub.toLowerCase().includes('psgc')) || standings[0];
+  const lang = getLanguage();
+  const isEn = lang === 'en';
+
+  let statusBadgeClass = 'safe';
+  let statusText = t('sim_float_safe', {}, lang);
+
+  if (targetTeam.posisi === 1) {
+    statusBadgeClass = 'promo';
+    statusText = isEn ? 'Grand Final' : 'Grand Final';
+  } else if (targetTeam.posisi === 2 || targetTeam.posisi === 3) {
+    statusBadgeClass = 'promo';
+    statusText = t('sim_float_playoff', {}, lang);
+  } else if (targetTeam.posisi >= 8) {
+    statusBadgeClass = 'danger';
+    statusText = t('sim_float_danger', {}, lang);
+  }
+
+  floatBar.innerHTML = `
+    <div class="sim-float-left">
+      <img src="${targetTeam.logo || 'https://assets.ileague.id/uploads/images/logo/96/h/50/204.png'}" alt="${targetTeam.klub}" class="sim-float-team-emblem" onerror="this.style.opacity='0.2'">
+      <div class="sim-float-info">
+        <span class="sim-float-team-name">${targetTeam.klub}</span>
+        <div class="sim-float-stat-line">
+          <span>#${targetTeam.posisi}</span>
+          <span>•</span>
+          <span>${targetTeam.poin} ${isEn ? 'Pts' : 'Poin'}</span>
+          <span class="sim-float-rank-badge ${statusBadgeClass}">${statusText}</span>
+        </div>
+      </div>
+    </div>
+    <div class="sim-float-right">
+      <button type="button" class="sim-float-btn primary" id="btn-sim-float-scroll">
+        ${t('sim_float_btn_table', {}, lang)}
+      </button>
+    </div>
+  `;
+
+  const scrollBtn = floatBar.querySelector('#btn-sim-float-scroll');
+  if (scrollBtn) {
+    scrollBtn.addEventListener('click', () => {
+      const targetTable = document.getElementById('sim-standings-table-container');
+      if (targetTable) {
+        targetTable.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  }
 }
 
 /**
@@ -1596,9 +1674,10 @@ function renderStandingsRowsHtml(standings) {
         .join('');
 
       const isHighlighted = simState.highlightClub === team.klub;
+      const isPsgc = team.klub && team.klub.toLowerCase().includes('psgc');
 
       return `
-        <tr class="standings-row ${rowClass} ${isHighlighted ? 'row-highlighted' : ''}" data-club="${team.klub}">
+        <tr class="standings-row ${rowClass} ${isPsgc ? 'psgc-row' : ''} ${isHighlighted ? 'row-highlighted' : ''}" data-club="${team.klub}">
           <td class="col-pos">
             <div class="pos-cell-wrap">
               <span class="pos-number">${pos}</span>
@@ -1729,7 +1808,14 @@ function renderMatchCardsHtml(groupName, weekNum) {
     }
     return `
       <div class="sim-empty-state">
-        <div class="sim-empty-icon">📅</div>
+        <div class="sim-empty-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 32px; height: 32px; opacity: 0.6;">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+            <line x1="16" y1="2" x2="16" y2="6" />
+            <line x1="8" y1="2" x2="8" y2="6" />
+            <line x1="3" y1="10" x2="21" y2="10" />
+          </svg>
+        </div>
         <h3>${isEn ? 'No Scheduled Matches' : 'Tidak Ada Jadwal'}</h3>
         <p>${isEn ? `No matches scheduled for Matchweek ${weekNum}.` : `Tidak ada pertandingan yang dijadwalkan untuk Pekan ${weekNum}.`}</p>
       </div>
@@ -1820,11 +1906,11 @@ function renderMatchCardsHtml(groupName, weekNum) {
           <div class="sim-match-footer">
             <div class="sim-match-quick-buttons">
               <button class="sim-match-btn btn-random-match" data-pekan="${weekNum}" data-idx="${idx}">
-                🎲 Acak Skor
+                ${isEn ? 'Randomize' : 'Acak Skor'}
               </button>
               ${isFT ? `
                 <button class="sim-match-btn btn-clear-match" data-pekan="${weekNum}" data-idx="${idx}">
-                  ✕ Hapus
+                  ${isEn ? '✕ Clear' : '✕ Hapus'}
                 </button>
               ` : ''}
             </div>

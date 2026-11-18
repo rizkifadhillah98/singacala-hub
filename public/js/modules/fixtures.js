@@ -16,6 +16,7 @@ export function renderFixturesStream() {
 
   if (!state.fixturesData || state.fixturesData.length === 0) {
     container.innerHTML = `<div class="search-empty-prompt">${isEn ? 'Fixtures schedule not available yet.' : 'Jadwal pertandingan belum tersedia.'}</div>`;
+    renderMatchweekCarousel();
     return;
   }
 
@@ -69,6 +70,7 @@ export function renderFixturesStream() {
         <p>${isEn ? 'No matches found for the selected matchweek and club filter.' : 'Tidak ada laga untuk filter pekan dan klub yang dipilih.'}</p>
       </div>
     `;
+    renderMatchweekCarousel();
     return;
   }
 
@@ -108,7 +110,7 @@ export function renderFixturesStream() {
           (m.timAway && m.timAway.toLowerCase().includes('psgc'));
 
         return `
-            <div class="match-card-row ${isPsgcMatch ? 'psgc-match match-psgc' : ''}" data-home="${m.timHome}" data-away="${m.timAway}">
+            <div class="match-card-row ${isPsgcMatch ? 'psgc-match match-psgc' : ''}" data-home="${m.timHome}" data-away="${m.timAway}" role="button" tabindex="0" aria-label="${m.timHome} vs ${m.timAway}">
               <div class="match-ko-time">${scheduleLabel}</div>
               <div class="match-teams-score-line">
                 <!-- Home Team -->
@@ -135,6 +137,279 @@ export function renderFixturesStream() {
   `;
 
   container.innerHTML = html;
+
+  // Attach click listener to each match card to open Match Detail Bottom Sheet
+  container.querySelectorAll('.match-card-row').forEach((card, idx) => {
+    const matchData = allMatches[idx];
+    if (matchData) {
+      card.addEventListener('click', () => {
+        openMatchDetail(matchData);
+      });
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openMatchDetail(matchData);
+        }
+      });
+    }
+  });
+
+  renderMatchweekCarousel();
+}
+
+// Swipeable Matchweek Carousel (Pekan 1–27)
+export function renderMatchweekCarousel() {
+  const track = document.getElementById('matchweek-carousel-track');
+  if (!track) return;
+
+  const total = state.totalWeeks || 18;
+  const isAll = state.selectedPeriod === 'all';
+  const lang = getLanguage();
+
+  let html = `
+    <button type="button" class="matchweek-carousel-chip ${isAll ? 'active' : ''}" data-week="all" role="tab" aria-selected="${isAll}">
+      ${t('carousel_all', {}, lang)}
+    </button>
+  `;
+
+  for (let w = 1; w <= total; w++) {
+    const isActive = !isAll && state.currentWeek === w;
+    html += `
+      <button type="button" class="matchweek-carousel-chip ${isActive ? 'active' : ''}" data-week="${w}" role="tab" aria-selected="${isActive}">
+        ${t('carousel_week', { week: w }, lang)}
+      </button>
+    `;
+  }
+
+  track.innerHTML = html;
+
+  track.querySelectorAll('.matchweek-carousel-chip').forEach((chip) => {
+    chip.addEventListener('click', () => {
+      const val = chip.getAttribute('data-week');
+      if (val === 'all') {
+        state.selectedPeriod = 'all';
+      } else {
+        state.selectedPeriod = 'single';
+        state.currentWeek = parseInt(val, 10);
+      }
+      syncMatchweekDropdownText();
+      renderFixturesStream();
+    });
+  });
+
+  // Smooth auto-centering of active chip
+  const activeChip = track.querySelector('.matchweek-carousel-chip.active');
+  if (activeChip) {
+    try {
+      activeChip.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    } catch (_) {
+      // fallback for older browsers
+    }
+  }
+}
+
+// Match Detail Bottom Sheet / Modal
+export function openMatchDetail(match) {
+  const backdrop = document.getElementById('match-detail-backdrop');
+  const body = document.getElementById('match-detail-body');
+  const statusPill = document.getElementById('match-detail-status-pill');
+  const weekPill = document.getElementById('match-detail-week-pill');
+  if (!backdrop || !body) return;
+
+  const lang = getLanguage();
+  const isEn = lang === 'en';
+  const isFinished = match.status === 'FT';
+
+  if (statusPill) {
+    statusPill.textContent = isFinished ? (isEn ? 'FT' : 'SELESAI') : (isEn ? 'UPCOMING' : 'MENDATANG');
+  }
+  if (weekPill) {
+    weekPill.textContent = match.weekNum ? (isEn ? `MATCHWEEK ${match.weekNum}` : `PEKAN ${match.weekNum}`) : (isEn ? 'MATCH DETAIL' : 'DETAIL LAGA');
+  }
+
+  // Standings ranks and stats
+  const standings = state.standingsData && state.standingsData.klasemen ? state.standingsData.klasemen : [];
+  const homeStanding = standings.find((t) => matchClubs(t.klub, match.timHome));
+  const awayStanding = standings.find((t) => matchClubs(t.klub, match.timAway));
+
+  // Find Head-to-Head matches from fixturesData
+  const h2hMatches = [];
+  if (Array.isArray(state.fixturesData)) {
+    state.fixturesData.forEach((w) => {
+      if (Array.isArray(w.pertandingan)) {
+        w.pertandingan.forEach((m) => {
+          if (
+            m.status === 'FT' &&
+            ((matchClubs(m.timHome, match.timHome) && matchClubs(m.timAway, match.timAway)) ||
+              (matchClubs(m.timHome, match.timAway) && matchClubs(m.timAway, match.timHome)))
+          ) {
+            h2hMatches.push({ ...m, weekNum: w.pekan });
+          }
+        });
+      }
+    });
+  }
+
+  // Recent Form (Last 5 matches)
+  const homeForm = (state.teamsFormMap && state.teamsFormMap[homeStanding ? homeStanding.klub : match.timHome]) || [];
+  const awayForm = (state.teamsFormMap && state.teamsFormMap[awayStanding ? awayStanding.klub : match.timAway]) || [];
+  const last5Home = homeForm.slice(-5);
+  const last5Away = awayForm.slice(-5);
+
+  const formattedDate = formatMatchDate(match.tanggal, lang) || match.tanggal || (isEn ? 'TBD' : 'Menyusul');
+  const stadiumName = match.stadion ? match.stadion.toUpperCase() : (isEn ? 'MAIN STADIUM' : 'STADION UTAMA');
+  const kickoffTime = match.waktu ? `${match.waktu} WIB` : (isFinished ? '15:30 WIB' : (isEn ? 'TBD' : 'Jadwal Menyusul'));
+  const broadcastName = match.siaran && match.siaran.nama ? match.siaran.nama : (isEn ? 'Official Broadcast' : 'Siaran Resmi');
+  const broadcastLogo = match.siaran && match.siaran.logo ? `<img src="${match.siaran.logo}" alt="${broadcastName}" style="height: 18px; max-width: 60px; object-fit: contain;">` : '';
+
+  const renderFormPills = (list) => {
+    if (!list || list.length === 0) return `<span style="color: var(--text-dim); font-size: 11px;">-</span>`;
+    return list.map((item) => {
+      const res = item.result || 'D';
+      const resClass = res.toLowerCase();
+      const oppLabel = item.opponent ? `vs ${item.opponent}` : '';
+      const sc = item.score ? `(${item.score})` : '';
+      return `<span class="form-pill-mini ${resClass}" title="Pekan ${item.pekan}: ${oppLabel} ${sc}">${res}</span>`;
+    }).join('');
+  };
+
+  const h2hHtml = h2hMatches.length > 0
+    ? h2hMatches.map((h) => {
+      const hDate = formatMatchDate(h.tanggal, lang) || `Pekan ${h.weekNum}`;
+      return `
+          <div class="h2h-item-row">
+            <div style="display: flex; flex-direction: column;">
+              <span style="font-weight: 700; color: #fff;">${h.timHome} vs ${h.timAway}</span>
+              <span class="h2h-date">${hDate}</span>
+            </div>
+            <span class="h2h-score-badge">${h.skorHome} - ${h.skorAway}</span>
+          </div>
+        `;
+    }).join('')
+    : `<div style="color: var(--text-muted); font-size: 12px; padding: 4px 0;">${t('match_detail_no_h2h', {}, lang)}</div>`;
+
+  const scoreDigitsHtml = isFinished
+    ? `
+      <div class="match-detail-score-digits">
+        <span>${match.skorHome}</span>
+        <span class="match-detail-score-divider">-</span>
+        <span>${match.skorAway}</span>
+      </div>
+    `
+    : `<div class="match-detail-vs-badge">${isEn ? 'VS' : 'VS'}</div>`;
+
+  body.innerHTML = `
+    <!-- Scoreboard -->
+    <div class="match-detail-scoreboard">
+      <!-- Home -->
+      <div class="match-detail-team">
+        <img src="${match.logoHome}" alt="${match.timHome}" class="match-detail-team-logo" loading="lazy" onerror="this.style.opacity='0.2'">
+        <span class="match-detail-team-name">${match.timHome}</span>
+      </div>
+
+      <!-- Center Score -->
+      <div class="match-detail-score-box">
+        ${scoreDigitsHtml}
+      </div>
+
+      <!-- Away -->
+      <div class="match-detail-team">
+        <img src="${match.logoAway}" alt="${match.timAway}" class="match-detail-team-logo" loading="lazy" onerror="this.style.opacity='0.2'">
+        <span class="match-detail-team-name">${match.timAway}</span>
+      </div>
+    </div>
+
+    <!-- Match Information Grid -->
+    <div class="match-detail-info-grid">
+      <div class="match-detail-info-card">
+        <span class="match-detail-info-label">${t('match_detail_kickoff', {}, lang)}</span>
+        <span class="match-detail-info-val">${formattedDate} • ${kickoffTime}</span>
+      </div>
+      <div class="match-detail-info-card">
+        <span class="match-detail-info-label">${t('match_detail_stadium', {}, lang)}</span>
+        <span class="match-detail-info-val">${stadiumName}</span>
+      </div>
+      <div class="match-detail-info-card">
+        <span class="match-detail-info-label">${t('match_detail_broadcast', {}, lang)}</span>
+        <span class="match-detail-info-val">${broadcastLogo} ${broadcastName}</span>
+      </div>
+      <div class="match-detail-info-card">
+        <span class="match-detail-info-label">${t('match_detail_standings_pos', {}, lang)}</span>
+        <span class="match-detail-info-val">
+          #${homeStanding ? homeStanding.posisi : '-'} (${homeStanding ? homeStanding.poin : 0} pts) vs #${awayStanding ? awayStanding.posisi : '-'} (${awayStanding ? awayStanding.poin : 0} pts)
+        </span>
+      </div>
+    </div>
+
+    <!-- Recent Form (Last 5) -->
+    <div class="match-detail-section">
+      <div class="match-detail-section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 14px; height: 14px;">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+        </svg>
+        <span>${t('match_detail_form', {}, lang)}</span>
+      </div>
+      <div class="match-detail-card-panel">
+        <div class="match-detail-form-grid">
+          <div class="match-detail-form-col">
+            <span class="match-detail-form-team-label">${match.timHome}</span>
+            <div class="match-detail-form-badges">${renderFormPills(last5Home)}</div>
+          </div>
+          <div class="match-detail-form-col">
+            <span class="match-detail-form-team-label">${match.timAway}</span>
+            <div class="match-detail-form-badges">${renderFormPills(last5Away)}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Head-to-Head -->
+    <div class="match-detail-section">
+      <div class="match-detail-section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 14px; height: 14px;">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 6v6l4 2" />
+        </svg>
+        <span>${t('match_detail_h2h', {}, lang)}</span>
+      </div>
+      <div class="match-detail-card-panel">
+        ${h2hHtml}
+      </div>
+    </div>
+  `;
+
+  backdrop.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+export function closeMatchDetail() {
+  const backdrop = document.getElementById('match-detail-backdrop');
+  if (backdrop) {
+    backdrop.classList.remove('show');
+    document.body.style.overflow = '';
+  }
+}
+
+export function setupMatchDetailEvents() {
+  const backdrop = document.getElementById('match-detail-backdrop');
+  const closeBtn = document.getElementById('btn-close-match-detail');
+  if (!backdrop) return;
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeMatchDetail);
+  }
+
+  backdrop.addEventListener('click', (e) => {
+    if (e.target === backdrop) {
+      closeMatchDetail();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && backdrop.classList.contains('show')) {
+      closeMatchDetail();
+    }
+  });
 }
 
 // Populate Matchweeks Filter Dropdown

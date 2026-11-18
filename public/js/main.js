@@ -120,15 +120,27 @@ export async function loadInitialData() {
       );
       state.totalWeeks = grupAWeeks.length > 0 ? grupAWeeks.length : 18;
 
-      // Find highest week that has FT matches in Grup A
-      const activeWeeks = fixturesRes.data.filter(
-        (w) => w.pertandingan && w.pertandingan.some((m) => m.grup === 'Grup A' && m.status === 'FT')
-      );
-      if (activeWeeks.length > 0) {
-        state.currentWeek = activeWeeks[activeWeeks.length - 1].pekan;
-      } else {
-        state.currentWeek = 1;
+      // Determine active matchweek:
+      // If a week has not finished all its matches (status !== 'FT' or missing score), stay on that week.
+      // If all matches in that week are finished, advance to the next week.
+      const sortedWeeks = [...fixturesRes.data].sort((a, b) => a.pekan - b.pekan);
+      let detectedWeek = null;
+      for (const w of sortedWeeks) {
+        const grupAMatches = (w.pertandingan || []).filter(
+          (m) => m.grup === 'Grup A' || m.grup === 'A'
+        );
+        const matchesToCheck = grupAMatches.length > 0 ? grupAMatches : (w.pertandingan || []);
+        if (matchesToCheck.length > 0) {
+          const allCompleted = matchesToCheck.every(
+            (m) => m.status === 'FT' && m.skorHome !== null && m.skorAway !== null
+          );
+          if (!allCompleted) {
+            detectedWeek = w.pekan;
+            break;
+          }
+        }
       }
+      state.currentWeek = detectedWeek !== null ? detectedWeek : (state.totalWeeks || 18);
     }
 
     if (state.standingsData && state.standingsData.klasemen) {

@@ -7,7 +7,7 @@ export const state = {
   selectedGroup: 'Grup A', // Default to Grup A
   standingsData: null, // Active group standings object (Grup A)
   fixturesData: [],
-  currentWeek: 8,
+  currentWeek: 10,
   totalWeeks: 18,
   selectedPeriod: 'single', // 'single' (per Matchweek) or 'all'
   selectedCompFilter: 'Grup A', // Locked to Grup A matches

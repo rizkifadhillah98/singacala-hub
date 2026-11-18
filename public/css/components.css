@@ -1050,13 +1050,18 @@
   color: var(--text-white, #ffffff);
 }
 
+.mobile-nav-item:active {
+  transform: scale(0.92);
+  transition: transform 0.1s ease;
+}
+
 .mobile-nav-item.active {
   color: #ffffff;
 }
 
 .mobile-nav-item.active .mobile-nav-icon {
-  stroke: var(--color-green, #00e676);
-  transform: translateY(-1px);
+  stroke: #ffffff;
+  transform: translateY(-1.5px);
 }
 
 .mobile-nav-item.active .mobile-nav-label {
@@ -1068,11 +1073,39 @@
   content: '';
   position: absolute;
   top: 0;
-  width: 28px;
-  height: 2.5px;
-  background: var(--color-green, #00e676);
+  width: 24px;
+  height: 2px;
+  background: #ffffff;
   border-radius: 0 0 2px 2px;
-  box-shadow: 0 1px 6px rgba(0, 230, 118, 0.5);
+  box-shadow: 0 1px 3px rgba(255, 255, 255, 0.25);
+}
+
+/* TACTILE TOUCH MICRO-SCALE (FLAT ATHLETIC) */
+button,
+.nav-item-pill,
+.subnav-pill-btn,
+.match-card-row,
+.stats-cat-pill,
+.sim-quick-btn,
+.stepper-arrow-btn,
+.circle-btn,
+.lang-segment,
+.pill-dropdown-btn,
+.matchweek-carousel-chip,
+.mobile-nav-item {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.subnav-pill-btn:active,
+.stats-cat-pill:active,
+.stepper-arrow-btn:active,
+.circle-btn:active,
+.lang-segment:active,
+.pill-dropdown-btn:active,
+.matchweek-carousel-chip:active,
+.sim-quick-btn:active {
+  transform: scale(0.96);
+  transition: transform 0.1s ease;
 }
 
 /* ==========================================================================
@@ -1218,5 +1251,157 @@
   .disclaimer-accept-btn {
     width: 100%;
     text-align: center;
+  }
+
+  /* Sticky Filter Bar on Mobile */
+  .fixtures-filter-bar {
+    position: sticky;
+    top: 52px;
+    z-index: 70;
+    background: rgba(8, 9, 11, 0.94);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 0.6rem 0.2rem;
+    border-bottom: 1px solid var(--border-medium, #242934);
+    margin-bottom: 0.75rem;
+  }
+}
+
+/* ==========================================================================
+   INTERACTIVE BOTTOM SHEET & MOBILE MODALS (100% FLAT ATHLETIC)
+   ========================================================================== */
+
+.bottom-sheet-drag-handle {
+  width: 36px;
+  height: 4px;
+  background: #333a48;
+  border-radius: 999px;
+  margin: 10px auto 4px auto;
+  flex-shrink: 0;
+  cursor: grab;
+  touch-action: none;
+}
+
+.match-detail-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.match-detail-backdrop.show {
+  display: flex;
+}
+
+.match-detail-box {
+  background-color: var(--bg-surface, #0d0f14);
+  border: 1px solid var(--border-medium, #242934);
+  border-radius: 12px;
+  width: 580px;
+  max-width: 95vw;
+  max-height: 85vh;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
+  display: flex;
+  flex-direction: column;
+  animation: slideDownModal 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.match-detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1.25rem;
+  border-bottom: 1px solid var(--border-subtle, #1a1e26);
+  flex-shrink: 0;
+}
+
+.match-detail-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.match-detail-status-pill {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: #1e2430;
+  border: 1px solid #2e3646;
+  color: #cbd5e1;
+}
+
+.match-detail-week-pill {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted, #94a3b8);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.match-detail-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted, #94a3b8);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.match-detail-close-btn:hover {
+  color: #ffffff;
+  background: var(--bg-hover, rgba(255, 255, 255, 0.06));
+}
+
+.match-detail-body {
+  padding: 1.25rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+@keyframes sheetSlideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .match-detail-backdrop {
+    align-items: flex-end !important;
+    justify-content: center !important;
+    padding: 0 !important;
+  }
+
+  .match-detail-box {
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: 85vh !important;
+    border-radius: 14px 14px 0 0 !important;
+    border-bottom: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-top: 1px solid var(--border-medium, #242934) !important;
+    margin: 0 !important;
+    animation: sheetSlideUp 0.24s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    touch-action: pan-y;
   }
 }
