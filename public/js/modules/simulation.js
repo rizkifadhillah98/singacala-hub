@@ -1479,7 +1479,9 @@ export function renderSimFloatingSummaryBar() {
     floatBar = document.createElement('div');
     floatBar.id = 'sim-floating-summary';
     floatBar.className = 'sim-floating-summary';
-    document.body.appendChild(floatBar);
+    simView.appendChild(floatBar);
+  } else if (floatBar.parentElement !== simView) {
+    simView.appendChild(floatBar);
   }
 
   // Only display when inside simulation view on mobile (<= 768px)
