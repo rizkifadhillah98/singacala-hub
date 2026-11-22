@@ -47,6 +47,27 @@
       },
       {
         "posisi": 3,
+        "klub": "PERSIKAD",
+        "logo": "https://assets.ileague.id/uploads/images/logo/96/h/50/2208194.png",
+        "catatanPenalti": 0,
+        "main": 10,
+        "menang": 6,
+        "seri": 1,
+        "kalah": 3,
+        "gf": 16,
+        "ga": 13,
+        "gd": 3,
+        "poin": 19,
+        "form": [
+          "W",
+          "W",
+          "D",
+          "L",
+          "L"
+        ]
+      },
+      {
+        "posisi": 4,
         "klub": "PSIS SEMARANG",
         "logo": "https://assets.ileague.id/uploads/images/logo/96/h/50/20.png",
         "catatanPenalti": -1,
@@ -64,27 +85,6 @@
           "D",
           "L",
           "D"
-        ]
-      },
-      {
-        "posisi": 4,
-        "klub": "PERSIKAD",
-        "logo": "https://assets.ileague.id/uploads/images/logo/96/h/50/2208194.png",
-        "catatanPenalti": 0,
-        "main": 9,
-        "menang": 5,
-        "seri": 1,
-        "kalah": 3,
-        "gf": 15,
-        "ga": 13,
-        "gd": 2,
-        "poin": 16,
-        "form": [
-          "W",
-          "D",
-          "L",
-          "L",
-          "W"
         ]
       },
       {
@@ -155,20 +155,20 @@
         "klub": "ADHYAKSA FC BEKASI",
         "logo": "https://assets.ileague.id/uploads/images/logo/96/h/50/1817798767.png",
         "catatanPenalti": 0,
-        "main": 9,
+        "main": 10,
         "menang": 1,
         "seri": 5,
-        "kalah": 3,
+        "kalah": 4,
         "gf": 9,
-        "ga": 8,
-        "gd": 1,
+        "ga": 9,
+        "gd": 0,
         "poin": 8,
         "form": [
+          "L",
           "D",
           "D",
           "D",
-          "D",
-          "W"
+          "D"
         ]
       },
       {
