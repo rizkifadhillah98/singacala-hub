@@ -1998,6 +1998,22 @@
       {
         "pekan": 12,
         "grup": "Grup B",
+        "tanggal": "Minggu, 6 Desember 2026",
+        "waktu": "19:00",
+        "status": "UPCOMING",
+        "timHome": "PERSELA LAMONGAN",
+        "logoHome": "https://assets.ileague.id/uploads/images/logo/96/h/50/31.png",
+        "skorHome": null,
+        "skorAway": null,
+        "timAway": "KENDAL TORNADO FC",
+        "logoAway": "https://assets.ileague.id/uploads/images/logo/96/h/50/2408179.png",
+        "stadion": "Surajaya",
+        "siaran": null,
+        "urlDetail": "https://www.ileague.id/result/detail/PEGADAIAN_CHAMPIONSHIP_2026-27/2026-12-06/PERSELA_LAMONGAN_/KENDAL_TORNADO_FC"
+      },
+      {
+        "pekan": 12,
+        "grup": "Grup B",
         "tanggal": "Senin, 7 Desember 2026",
         "waktu": "15:30",
         "status": "UPCOMING",
@@ -2010,22 +2026,6 @@
         "stadion": "Kanjuruhan",
         "siaran": null,
         "urlDetail": "https://www.ileague.id/result/detail/PEGADAIAN_CHAMPIONSHIP_2026-27/2026-12-07/RANS_Nusantara_FC/PS_BARITO_PUTERA"
-      },
-      {
-        "pekan": 12,
-        "grup": "Grup B",
-        "tanggal": "Senin, 7 Desember 2026",
-        "waktu": "19:00",
-        "status": "UPCOMING",
-        "timHome": "PERSELA LAMONGAN",
-        "logoHome": "https://assets.ileague.id/uploads/images/logo/96/h/50/31.png",
-        "skorHome": null,
-        "skorAway": null,
-        "timAway": "KENDAL TORNADO FC",
-        "logoAway": "https://assets.ileague.id/uploads/images/logo/96/h/50/2408179.png",
-        "stadion": "Surajaya",
-        "siaran": null,
-        "urlDetail": "https://www.ileague.id/result/detail/PEGADAIAN_CHAMPIONSHIP_2026-27/2026-12-07/PERSELA_LAMONGAN_/KENDAL_TORNADO_FC"
       },
       {
         "pekan": 12,
